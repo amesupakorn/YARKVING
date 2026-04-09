@@ -21,8 +21,9 @@
   --color-on-surface: #1d1c11;
   --color-outline-variant: #c2c8bf;
 
-  --font-display: var(--font-jakarta), sans-serif;
-  --font-sans: var(--font-vietnam), sans-serif;
+  --font-display: var(--font-ibm-plex-sans-thai), sans-serif;
+  --font-sans: var(--font-ibm-plex-sans-thai), sans-serif;
+  --font-mono: var(--font-inter), monospace;
 
   --shadow-ambient: 0px 12px 32px rgba(29, 28, 17, 0.06);
 
@@ -36,4 +37,95 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.ibm-plex-sans-thai-thin {
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-extralight {
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-light {
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-regular {
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-medium {
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-semibold {
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-bold {
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Leaflet Custom Popup Overrides */
+.track-popup .leaflet-popup-content-wrapper {
+  background: transparent !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+}
+
+.track-popup .leaflet-popup-content {
+  margin: 0 !important;
+  width: 220px !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+}
+
+.track-popup .leaflet-popup-tip {
+  background: white !important;
+}
+
+.user-popup .leaflet-popup-content-wrapper {
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(100, 100, 100, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+.user-popup .leaflet-popup-content {
+  margin: 0 !important;
+}
+
+.leaflet-container {
+  font-family: inherit !important;
+}
+
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }

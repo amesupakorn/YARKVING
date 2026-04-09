@@ -1,51 +1,101 @@
 import React from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
-import { Search, MapPin, Star } from "lucide-react";
+import { Search, MapPin, Star, CheckCircle2, Navigation, ArrowRight, LayoutGrid } from "lucide-react";
+import HomeMap from "@/components/ui/HomeMap";
+import prisma from "@/lib/prisma";
 
-export default function ExplorePage() {
+export default async function HomePage() {
+  // Fetch dynamic data from DB
+  const trackCount = await prisma.track.count();
+  const formattedTrackCount = trackCount > 0 ? `${trackCount}` : "120+";
+
   return (
-    <main className="w-full pb-24">
-      {/* Hero Section: Topographic Map */}
-      <section className="relative min-h-[600px] overflow-hidden bg-surface-container-low flex flex-col justify-center px-8 pt-32">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-          <div className="space-y-8">
-            <h1 className="text-5xl lg:text-6xl font-bold font-display leading-[1.2] text-on-surface">
-              เส้นทางวิ่งที่<br />
-              <span className="text-primary italic font-light">สงบและงดงาม</span>
-            </h1>
-            <p className="text-xl text-on-surface-variant max-w-lg leading-relaxed">
-              ค้นพบสนามวิ่งที่คุณรัก ตั้งแต่สวนสาธารณะใจกลางเมืองไปจนถึงเส้นทางศึกษาธรรมชาติที่เงียบสงบ สำหรับนักวิ่งทุกวัย
-            </p>
-            {/* Search Bar */}
-            <div className="relative max-w-md group">
-              <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+    <main className="w-full pb-24 bg-surface">
+      {/* Hero Section: Editorial Dashboard Design */}
+      <section className="relative min-h-[850px] flex flex-col justify-center px-8 pt-20">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+
+          {/* Left Column: Focused Copy & Search */}
+          <div className="space-y-12">
+            <div className="space-y-6">
+              <h1 className="text-6xl lg:text-7xl font-bold font-display leading-[1.1] text-primary">
+                สำรวจเส้นทางวิ่ง<br />
+                <span className="text-secondary opacity-90">ทั่วกรุงเทพมหานคร</span>
+              </h1>
+
+              <p className="text-xl text-on-surface-variant max-w-lg leading-relaxed font-medium">
+                ศูนย์รวมคอมมูนิตี้สำหรับค้นพบเส้นทางวิ่งที่หลากหลาย ไม่ว่าจะเป็นสวนสาธารณะในเมือง หรือเส้นทางทางธรรมชาติที่ท้าทาย พร้อมแบ่งปันประสบการณ์กับนักวิ่งทั่วประเทศ
+              </p>
+            </div>
+
+            {/* Custom Styled Search Bar */}
+            <div className="relative max-w-xl group">
+              <div className="absolute inset-y-0 left-8 flex items-center pointer-events-none">
                 <Search className="w-6 h-6 text-outline" strokeWidth={1.5} />
               </div>
               <input
-                className="w-full h-16 pl-16 pr-8 bg-surface-container-lowest border-none rounded-xl text-lg shadow-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant outline-none"
-                placeholder="ค้นหาสนามวิ่ง..."
+                className="w-full h-20 pl-20 pr-10 bg-white border-none rounded-[2rem] text-xl shadow-ambient focus:ring-8 focus:ring-primary/5 transition-all placeholder:text-outline-variant outline-none font-sans"
+                placeholder="ค้นหาเขต หรือชื่อสนามวิ่ง..."
                 type="text"
               />
             </div>
-          </div>
-          
-          <div className="relative hidden lg:block">
-            {/* Stylized 3D Topographic Map Placeholder */}
-            <div className="relative w-full aspect-square scale-110">
-              <div className="absolute inset-0 bg-primary/5 rounded-full blur-3xl"></div>
-              <img
-                alt="3D map visual"
-                className="w-full h-full object-contain mix-blend-multiply opacity-90"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg3e4F3pJ11nDfmJbqsaMltQvCAIONZn8boSG0nCM6lH9Lzkap9slyodKviz6A9LjpSKHSGu71hSmcCa0td1pgkBitWRmHsXL4VmiMSszom7y7D5YgLmuYMM7zQr7N7TcOKuRwctDPgMs_4vZetpyAVdu4GRcGn-sDQhQv3QF_hGME8KNX6VRZgLeM6lPH8UihG-duhb94gxfb9k71KpPg7BNYdbdOJ7zcZ72ZLPJbGsLtTNDtejxtqItPHIMs1mpP_OWPbxSitoA"
-              />
-              <div className="absolute top-1/4 right-1/4 bg-surface-container-lowest p-3 rounded-xl shadow-lg border border-outline-variant/10">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-tertiary-container rounded-full animate-pulse"></div>
-                  <span className="text-sm font-semibold">Lumpini Park</span>
-                </div>
+
+            {/* Feature Highlights */}
+            <div className="flex flex-wrap gap-8 pt-4">
+              <div className="flex items-center gap-3 text-secondary font-bold">
+                <CheckCircle2 className="w-6 h-6 text-primary fill-primary/10" />
+                <span>{formattedTrackCount}+ เส้นทาง</span>
+              </div>
+              <div className="flex items-center gap-3 text-secondary font-bold">
+                <CheckCircle2 className="w-6 h-6 text-primary fill-primary/10" />
+                <span>ครอบคลุมทุกเขต</span>
               </div>
             </div>
+          </div>
+
+          {/* Right Column: Interactive Network Card */}
+          <div className="relative hidden lg:block">
+            <div className="bg-white rounded-[3.5rem] p-8 shadow-ambient-heavy border border-white/50 relative overflow-hidden group">
+              {/* Card Header */}
+              <div className="flex justify-between items-center mb-8 px-2">
+                <h3 className="text-2xl font-bold text-on-surface font-display">ภาพรวม</h3>
+
+              </div>
+
+              {/* Map Container inside Card */}
+              <div className="relative h-[420px] rounded-[3rem] overflow-hidden bg-surface-container mb-8">
+                <HomeMap />
+
+                {/* Popular Areas Overlay */}
+                <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-3xl shadow-ambient z-30 flex items-center gap-5">
+                  <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+                    <LayoutGrid className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-outline uppercase tracking-wider mb-1">พื้นที่ยอดนิยม</div>
+                    <div className="font-bold text-on-surface">กรุงเทพมหานคร (กทม.)</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats & Actions */}
+              <div className="grid grid-cols-1 gap-6 mb-8">
+                <div className="bg-surface p-8 rounded-[2rem] border border-outline-variant/10 text-center lg:text-left">
+                  <div className="text-4xl font-bold text-on-surface mb-2 font-mono">{formattedTrackCount}+</div>
+                  <div className="text-sm text-on-surface-variant font-medium">สนามวิ่งที่ผ่านการตรวจสอบ</div>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <Link href="/explore" className="w-full bg-primary text-white h-20 rounded-[2rem] font-bold text-lg flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-lg shadow-primary/10 group/btn">
+                <span>สำรวจเส้นทางทั้งหมด</span>
+                <ArrowRight className="w-6 h-6 transition-transform group-hover/btn:translate-x-1" />
+              </Link>
+            </div>
+
+            {/* Visual Flare Decoration */}
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
           </div>
         </div>
       </section>
@@ -54,11 +104,11 @@ export default function ExplorePage() {
       <section className="py-24 px-8 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between md:items-end mb-16 gap-6">
           <div>
-            <h2 className="text-4xl font-bold font-display mb-4">สนามวิ่งยอดนิยม</h2>
-            <p className="text-on-surface-variant text-lg">คัดสรรจากรีวิวและความนิยมในสัปดาห์นี้</p>
+            <h2 className="text-4xl font-bold font-display mb-4">เส้นทางวิ่งยอดนิยม</h2>
+            <p className="text-on-surface-variant text-lg">คัดสรรจากรีวิวผู้ใช้งานและสถานที่วิ่งที่ได้รับความนิยมในสัปดาห์นี้</p>
           </div>
           <button className="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-xl font-semibold transition-all hover:opacity-90 inline-flex self-start md:self-end text-sm">
-            ดูทั้งหมด
+            ดูเส้นทางวิ่งทั้งหมด
           </button>
         </div>
 
@@ -89,7 +139,7 @@ export default function ExplorePage() {
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4" />
-                  <span className="ml-2 text-on-surface font-semibold text-sm">4.8</span>
+                  <span className="ml-2 text-on-surface font-mono font-semibold text-sm">4.8</span>
                 </div>
               </div>
             </div>
@@ -116,7 +166,7 @@ export default function ExplorePage() {
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
-                  <span className="ml-2 text-on-surface font-semibold text-sm">5.0</span>
+                  <span className="ml-2 text-on-surface font-mono font-semibold text-sm">5.0</span>
                 </div>
               </div>
             </div>
@@ -143,7 +193,7 @@ export default function ExplorePage() {
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4" />
-                  <span className="ml-2 text-on-surface font-semibold text-sm">4.5</span>
+                  <span className="ml-2 text-on-surface font-mono font-semibold text-sm">4.5</span>
                 </div>
               </div>
             </div>
@@ -152,14 +202,13 @@ export default function ExplorePage() {
       </section>
 
       {/* Community Section */}
-      <section className="mb-24 px-8 max-w-7xl mx-auto">
+      {/* <section className="mb-24 px-8 max-w-7xl mx-auto">
         <div className="bg-primary rounded-[2.5rem] p-12 lg:p-20 flex flex-col lg:flex-row items-center gap-16 overflow-hidden relative shadow-ambient">
-          {/* Asymmetric Decor */}
           <div className="absolute top-0 right-0 w-1/2 h-full bg-white/5 skew-x-12 transform origin-top-right"></div>
-          
+
           <div className="flex-1 space-y-8 relative z-10 text-white">
             <h2 className="text-4xl lg:text-5xl font-bold font-display leading-[1.2]">
-              เข้าร่วมคอมมูนิตี้<br/>นักวิ่งกับเราวันนี้
+              เข้าร่วมคอมมูนิตี้<br />นักวิ่งกับเราวันนี้
             </h2>
             <p className="text-lg text-primary-fixed opacity-90 leading-relaxed max-w-md">
               แชร์เส้นทางใหม่ๆ ติดตามผลงานของคุณ และเชื่อมต่อกับเพื่อนนักวิ่งที่มีใจรักเดียวกัน
@@ -181,7 +230,7 @@ export default function ExplorePage() {
             />
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }
