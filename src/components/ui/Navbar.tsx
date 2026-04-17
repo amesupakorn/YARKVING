@@ -25,7 +25,7 @@ export function Navbar() {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex flex-1 items-center justify-center gap-8 text-sm font-medium">
-        <Link href="/explore" className="hover:text-primary transition-colors">ค้นหาเส้นทางวิ่งใหม่ๆ</Link>
+        <Link href="/explore" className="hover:text-primary transition-colors">ค้นหาเส้นทางใกล้ฉัน</Link>
       </div>
 
       {/* Desktop Button */}

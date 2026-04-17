@@ -23,7 +23,7 @@ export default function HomeMap() {
         // ดึงข้อมูลสนามที่มี limit สูง เพื่อให้คลุมกรุงเทพ
         fetch(`/api/tracks/nearby?lat=${center.lat}&lng=${center.lng}&limit=100`)
             .then(r => r.json())
-            .then(data => setTracks(data))
+            .then(data => setTracks(data.tracks || []))
             .catch(e => console.error(e));
     }, []);
 

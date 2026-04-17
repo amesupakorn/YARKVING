@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans_Thai, Inter } from "next/font/google";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
+import { CookieConsent } from "@/components/ui/CookieConsent";
 import "./globals.css";
 
 
@@ -41,6 +42,7 @@ export default function RootLayout({
         </div>
         
         <Footer />
+        <CookieConsent />
       </body>
     </html>
   );

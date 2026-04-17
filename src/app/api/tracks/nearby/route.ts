@@ -50,10 +50,67 @@ export async function GET(request: Request) {
     // เรียงจากใกล้ที่สุดไปไกลที่สุด
     tracksWithDistance.sort((a, b) => a.distance - b.distance);
 
-    // ดึงตามจำนวน limit (ค่าเริ่มต้น 15 ลำดับแรก)
-    const nearestTracks = tracksWithDistance.slice(0, limit);
+    const radiusParam = searchParams.get('radius');
+    let filteredTracks = tracksWithDistance;
+    
+    // Only apply radius filter if radiusParam is present and not 'null'
+    if (radiusParam && radiusParam !== 'null') {
+      const radius = parseFloat(radiusParam);
+      if (!isNaN(radius) && radius > 0) {
+        filteredTracks = tracksWithDistance.filter(t => t.distance <= radius);
+      }
+    }
 
-    return NextResponse.json(nearestTracks);
+    // Server-side category filtering
+    const category = searchParams.get('category');
+    if (category && category !== 'all' && category !== 'nearby') {
+      filteredTracks = filteredTracks.filter(track => {
+        const name = track.name.toLowerCase();
+        if (category === "parks") return name.includes("สวน") || name.includes("park");
+        if (category === "nature") return name.includes("ธรรมชาติ") || name.includes("เขา") || name.includes("nature") || name.includes("trail");
+        if (category === "stadium") return name.includes("สนาม") || name.includes("stadium") || name.includes("กีฬา");
+        return true;
+      });
+    }
+
+    // New: Advanced Filtering
+    const query = searchParams.get('q')?.toLowerCase();
+    if (query) {
+      filteredTracks = filteredTracks.filter(track => 
+        track.name.toLowerCase().includes(query) || 
+        track.description?.toLowerCase().includes(query)
+      );
+    }
+
+    const minRating = parseFloat(searchParams.get('minRating') || '0');
+    if (minRating > 0) {
+      filteredTracks = filteredTracks.filter(track => track.rating >= minRating);
+    }
+
+    if (searchParams.get('restrooms') === 'true') {
+      filteredTracks = filteredTracks.filter(track => track.hasRestrooms);
+    }
+    if (searchParams.get('water') === 'true') {
+      filteredTracks = filteredTracks.filter(track => track.hasWater);
+    }
+    if (searchParams.get('parking') === 'true') {
+      filteredTracks = filteredTracks.filter(track => track.hasParking);
+    }
+    if (searchParams.get('lockers') === 'true') {
+      filteredTracks = filteredTracks.filter(track => track.hasLockers);
+    }
+
+    const total = filteredTracks.length;
+    const offsetParam = searchParams.get('offset');
+    const offset = offsetParam ? parseInt(offsetParam, 10) : 0;
+
+    // ดึงตามจำนวน limit และ offset
+    const nearestTracks = filteredTracks.slice(offset, offset + limit);
+
+    return NextResponse.json({
+      tracks: nearestTracks,
+      total
+    });
   } catch (error) {
     console.error('Error fetching tracks:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

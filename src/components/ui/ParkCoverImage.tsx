@@ -9,6 +9,7 @@ interface ParkCoverImageProps {
     zoom?: number;
     width?: number;
     height?: number;
+    imageUrl?: string;
     className?: string;
 }
 
@@ -24,10 +25,11 @@ export default function ParkCoverImage({
     zoom = 16,
     width = 600,
     height = 400,
+    imageUrl: propImageUrl,
     className
 }: ParkCoverImageProps) {
-    // We use our internal API proxy which handles Google Maps + Caching
-    const imageUrl = `/api/map-image?lat=${latitude}&lng=${longitude}&zoom=${zoom}&width=${width}&height=${height}`;
+    // Falls back to the default image if no imageUrl is provided
+    const displayImageUrl = propImageUrl || "/image/default-track.png";
 
     return (
         <div className={cn(
@@ -36,7 +38,7 @@ export default function ParkCoverImage({
         )}>
             {/* Clean Satellite Background (Labels hidden via Proxy) */}
             <img 
-                src={imageUrl} 
+                src={displayImageUrl} 
                 alt={`Satellite view of ${name}`}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 onError={(e) => {

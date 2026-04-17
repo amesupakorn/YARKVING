@@ -12,9 +12,35 @@ model Track {
   name      String
   imageUrl  String
   imageCredit String? @map("image_credit")
-  rating    Float
-  latitude  Float
-  longitude Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  rating      Float
+  latitude    Float
+  longitude   Float
+  description String?
+  distance    String?
+  surface     String?
+  elevation   String?
+  difficulty  String?
+  bestTime    String?  @map("best_time")
+  hasRestrooms Boolean @default(false) @map("has_restrooms")
+  hasWater     Boolean @default(false) @map("has_water")
+  hasParking   Boolean @default(false) @map("has_parking")
+  hasLockers    Boolean @default(false) @map("has_lockers")
+  googlePlaceId String? @map("google_place_id")
+  reviews       Review[]
+  createdAt     DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id              String   @id @default(cuid())
+  authorName      String   @map("author_name")
+  authorPhotoUrl  String?  @map("author_photo_url")
+  rating          Int
+  text            String
+  timeDescription String   @map("time_description")
+  
+  trackId         String   @map("track_id")
+  track           Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime @default(now())
 }

@@ -53,7 +53,7 @@ async function main() {
         console.log(`Found ${parks.length} valid parks with names. Inserting to database...`);
 
         // รูปประกอบจำลองสำหรับให้หน้าตามินิมอลเข้ากับ YARKVING
-        const fallbackImageUrl = 'https://lh3.googleusercontent.com/aida-public/AB6AXuB9eAWu_a2sgOpM3Awa9fgkcT4IWFn4IkhD6nuOPXv9a9plyZAnNnO9bwQN7Dn_mjYN3o75Luo1W8UzS9qVmfJv0EMzseHUnRdkd71lezJoJnwzC95gmoZqpRdztdrtnxvqlvZPJ_VB-EMKPUajtBoNKyB3n3SLwB1dvcCQp0vs-R_w2P5qgBvSbB3NAP5jFAlY3GTjyXBhhfrUs11CIOa3bczR8rRCzEzbRvCCmLK-ftibILaoesxOmrs-rmxwvdD6DaN6jgE7EtA';
+        const fallbackImageUrl = 'image/default-track.png';
         
         // Loop Insert / Upsert ทีละอัน (ถ้า field ไม่ได้ @unique ให้ findFirst เช็คก่อน)
         let insertedCount = 0;
@@ -96,7 +96,8 @@ async function main() {
         console.log(`Total Parks in Search Scope: ${insertedCount + updatedCount}`);
 
     } catch (error) {
-        console.error('Error fetching or processing OpenStreetMap data:', error?.message || error);
+        const err = error as Error;
+        console.error('Error fetching or processing OpenStreetMap data:', err?.message || err);
     } finally {
         await prisma.$disconnect();
     }

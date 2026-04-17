@@ -25,7 +25,9 @@ interface ExploreMapProps {
 // Function to center map dynamically when location changes
 function ChangeView({ center }: { center: [number, number] }) {
   const map = useMap();
-  map.setView(center, map.getZoom());
+  React.useEffect(() => {
+    map.setView(center, map.getZoom());
+  }, [center, map]);
   return null;
 }
 
@@ -83,6 +85,7 @@ export default function ExploreMap({ tracks, userLocation }: ExploreMapProps) {
                                 name={track.name} 
                                 latitude={track.latitude} 
                                 longitude={track.longitude}
+                                imageUrl={track.imageUrl}
                                 className="w-full h-full"
                             />
                             <div className="absolute top-2 left-2 bg-white/90 backdrop-blur text-primary text-[10px] font-bold px-2 py-1 rounded-full font-mono flex items-center shadow-sm z-30">
