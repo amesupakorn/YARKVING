@@ -60,7 +60,7 @@ export default function ExplorePage() {
             try {
                 // Determine if we should use radius filter (Nearby uses it, All doesn't)
                 const useRadius = activeFilter === "nearby" ? currentRadius : "null";
-                
+
                 // Build filter query string
                 const filterParams = new URLSearchParams({
                     lat: location.lat.toString(),
@@ -81,7 +81,7 @@ export default function ExplorePage() {
                 if (res.ok && !isCancelled) {
                     const result = await res.json();
                     const { tracks, total } = result;
-                    
+
                     if (tracks.length === 0 && currentRadius < 50 && activeFilter === "nearby" && !debouncedQuery) {
                         // ไม่พบในระยะนี้ ให้ขยายรัศมีเพิ่มกอีก 5 km (เฉพาะกรณีไม่ได้ค้นหาคำค้น)
                         console.log(`No tracks found within ${currentRadius}km, broadening to ${currentRadius + 5}km...`);
@@ -119,7 +119,7 @@ export default function ExplorePage() {
         try {
             const offset = nearbyTracks.length;
             const useRadius = activeFilter === "nearby" ? searchRadius : "null";
-            
+
             const filterParams = new URLSearchParams({
                 lat: location.lat.toString(),
                 lng: location.lng.toString(),
@@ -188,7 +188,7 @@ export default function ExplorePage() {
                 {!hasLocation && (
                     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-surface-container-high/80 backdrop-blur-sm animate-pulse">
                         <Navigation className="w-10 h-10 text-primary mb-4 animate-bounce" />
-                        <p className="text-on-surface-variant font-medium">กำลังค้นหาตำแหน่งของคุณ...</p>
+                        <p className="text-on-surface-variant font-medium">{t('explore', 'nearbyTitle')}</p>
                     </div>
                 )}
 
@@ -205,7 +205,7 @@ export default function ExplorePage() {
                     <div className="flex justify-end max-w-7xl mx-auto w-full pointer-events-auto">
                         <button onClick={handleGetLocation} className="bg-surface-container-lowest p-3 rounded-full shadow-lg border border-outline-variant/10 hover:bg-surface-bright hover:shadow-xl transition-all mr-2 mt-4 tooltip relative group inline-block focus:outline-none">
                             <Navigation className={`w-6 h-6 ${hasLocation ? 'text-primary' : 'text-outline'}`} fill={hasLocation ? "currentColor" : "none"} />
-                            <div className="absolute hidden group-hover:block -bottom-10 right-0 bg-surface-container-lowest text-sm px-3 py-1 rounded shadow text-on-surface whitespace-nowrap">รีเซ็ตตำแหน่งของคุณ</div>
+                            <div className="absolute hidden group-hover:block -bottom-10 right-0 bg-surface-container-lowest text-sm px-3 py-1 rounded shadow text-on-surface whitespace-nowrap">{t('explore', 'nearbyTitle')}</div>
                         </button>
                     </div>
                 </div>
@@ -227,13 +227,13 @@ export default function ExplorePage() {
                         </div>
                         <input
                             className="w-full h-[68px] pl-16 pr-16 bg-surface-container-lowest border border-outline-variant/10 rounded-[2rem] text-lg focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant outline-none font-sans shadow-inside"
-                            placeholder="ค้นหาสวนสาธารณะ, เส้นทางวิ่ง หรือสนามกีฬา..."
+                            placeholder={t('explore', 'searchPlaceholder')}
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                         {searchQuery && (
-                            <button 
+                            <button
                                 onClick={() => setSearchQuery("")}
                                 className="absolute inset-y-0 right-6 flex items-center text-outline hover:text-primary transition-colors"
                             >
@@ -241,15 +241,15 @@ export default function ExplorePage() {
                             </button>
                         )}
                     </div>
-                    <button 
+                    <button
                         onClick={() => setIsFilterOpen(true)}
                         className={cn(
                             "bg-surface-container-lowest border border-outline-variant/10 px-8 py-4 rounded-[2rem] font-bold flex items-center justify-center gap-3 hover:bg-surface-variant transition-colors whitespace-nowrap shadow-sm text-on-surface",
                             (filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers) && "border-primary/50 bg-primary/5 text-primary"
                         )}
                     >
-                        <Filter className="w-5 h-5" /> 
-                        <span className="font-display">ตัวกรอง</span>
+                        <Filter className="w-5 h-5" />
+                        <span className="font-display">{t('explore', 'filters')}</span>
                         {(filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers) && (
                             <span className="w-2 h-2 bg-primary rounded-full" />
                         )}
@@ -258,50 +258,50 @@ export default function ExplorePage() {
 
                 {/* Filter Chips */}
                 <div className="flex overflow-x-auto gap-4 py-2 scrollbar-none font-medium text-sm md:text-base px-2">
-                    <button 
+                    <button
                         onClick={() => setActiveFilter("all")}
                         className={cn(
                             "px-8 py-2.5 rounded-full whitespace-nowrap shadow-sm transition-all",
                             activeFilter === "all" ? "bg-primary text-white border border-primary" : "bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant/30 text-on-surface-variant hover:text-on-surface"
                         )}
                     >
-                        ทั้งหมด (All)
+                        {t('explore', 'filterAll')}
                     </button>
-                    <button 
+                    <button
                         onClick={() => setActiveFilter("nearby")}
                         className={cn(
                             "px-8 py-2.5 rounded-full whitespace-nowrap shadow-sm transition-all",
                             activeFilter === "nearby" ? "bg-primary text-white border border-primary" : "bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant/30 text-on-surface-variant hover:text-on-surface"
                         )}
                     >
-                        ใกล้ตัว (Nearby)
+                        {t('explore', 'filterNearby')}
                     </button>
-                    <button 
+                    <button
                         onClick={() => setActiveFilter("parks")}
                         className={cn(
                             "px-8 py-2.5 rounded-full whitespace-nowrap shadow-sm transition-all",
                             activeFilter === "parks" ? "bg-primary text-white border border-primary" : "bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant/30 text-on-surface-variant hover:text-on-surface"
                         )}
                     >
-                        สวนสาธารณะ (Parks)
+                        {t('explore', 'filterParks')}
                     </button>
-                    <button 
+                    <button
                         onClick={() => setActiveFilter("nature")}
                         className={cn(
                             "px-8 py-2.5 rounded-full whitespace-nowrap shadow-sm transition-all",
                             activeFilter === "nature" ? "bg-primary text-white border border-primary" : "bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant/30 text-on-surface-variant hover:text-on-surface"
                         )}
                     >
-                        เส้นทางธรรมชาติ (Nature)
+                        {t('explore', 'filterNature')}
                     </button>
-                    <button 
+                    <button
                         onClick={() => setActiveFilter("stadium")}
                         className={cn(
                             "px-8 py-2.5 rounded-full whitespace-nowrap shadow-sm transition-all",
                             activeFilter === "stadium" ? "bg-primary text-white border border-primary" : "bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant/30 text-on-surface-variant hover:text-on-surface"
                         )}
                     >
-                        สเตเดียม (Stadium)
+                        {t('explore', 'filterStadium')}
                     </button>
                 </div>
             </section>
@@ -310,31 +310,27 @@ export default function ExplorePage() {
             <section className="py-16 px-8 max-w-6xl mx-auto">
                 <div className="mb-12">
                     <h2 className="text-4xl font-bold font-display mb-3 text-on-surface flex items-center gap-3">
-                        สถานที่วิ่งใกล้ฉัน
-                        <span className="flex h-3 w-3 relative">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-                        </span>
+                        {t('explore', 'nearbyTitle')}
                     </h2>
                     <p className="text-on-surface-variant text-lg">
                         {activeFilter === "nearby" ? (
                             isBroadening ? (
                                 <span className="flex items-center gap-2 animate-pulse text-primary font-medium">
-                                    <Navigation className="w-4 h-4 animate-spin" /> กำลังขยายขอบเขตการค้นหาเป็น {searchRadius} กิโลเมตร...
+                                    <Navigation className="w-4 h-4 animate-spin" /> {t('explore', 'btnLoading')} ({searchRadius} {t('common', 'km')})
                                 </span>
                             ) : (
-                                <>สำรวจเส้นทางยอดนิยมในระยะ <span className="font-mono text-on-surface font-semibold">{searchRadius}</span> กิโลเมตร</>
+                                <>{t('explore', 'radiusInfo').replace('{radius}', searchRadius.toString())}</>
                             )
                         ) : activeFilter === "all" ? (
-                            "สำรวจเส้นทางวิ่งทั้งหมดทั่วกรุงเทพมหานคร"
+                            t('explore', 'allTracksInfo')
                         ) : activeFilter === "parks" ? (
-                            "สำรวจสวนสาธารณะและพื้นที่สีเขียวยอดนิยม"
+                            lang === 'th' ? "สำรวจสวนสาธารณะและพื้นที่สีเขียวยอดนิยม" : "Explore popular parks and green spaces"
                         ) : activeFilter === "nature" ? (
-                            "สำรวจเส้นทางวิ่งธรรมชาติและเทรล"
+                            lang === 'th' ? "สำรวจเส้นทางวิ่งธรรมชาติและเทรล" : "Explore nature trails and forest paths"
                         ) : activeFilter === "stadium" ? (
-                            "สำรวจสนามกีฬามาร์ตและศูนย์กีฬามาตรฐาน"
+                            lang === 'th' ? "สำรวจสนามกีฬามาร์ตและศูนย์กีฬามาตรฐาน" : "Explore stadiums and standard sports centers"
                         ) : (
-                            "สำรวจเส้นทางวิ่งยอดนิยม"
+                            t('explore', 'nearbyTitle')
                         )}
                     </p>
                 </div>
@@ -365,7 +361,7 @@ export default function ExplorePage() {
                                     />
                                     <div className="absolute top-4 left-4">
                                         <div className="bg-surface-container-lowest/90 backdrop-blur text-primary text-xs font-bold px-4 py-2 rounded-full tracking-wide font-mono flex items-center gap-1.5 shadow-sm">
-                                            <Navigation className="w-3 h-3" /> {track.distance < 1 ? '< 1' : track.distance.toFixed(1)} km
+                                            <Navigation className="w-3 h-3" /> {track.distance < 1 ? '< 1' : track.distance.toFixed(1)} {t('common', 'km')}
                                         </div>
                                     </div>
                                 </div>
@@ -374,7 +370,7 @@ export default function ExplorePage() {
                                         <h3 className="text-2xl font-bold font-display group-hover:text-primary transition-colors">{track.name}</h3>
                                     </div>
                                     <div className="flex items-center text-on-surface-variant gap-2 font-medium">
-                                        <MapPin className="w-5 h-5 text-outline" strokeWidth={1} /> กรุงเทพฯ
+                                        <MapPin className="w-5 h-5 text-outline" strokeWidth={1} /> {lang === 'th' ? 'กรุงเทพฯ' : 'Bangkok'}
                                     </div>
                                     <div className="pt-4 flex items-center justify-between border-t border-outline-variant/20">
                                         <div className="flex items-center gap-1 text-tertiary">
@@ -393,9 +389,9 @@ export default function ExplorePage() {
                         <div className="w-24 h-24 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-8">
                             <Search className="w-12 h-12 text-primary opacity-20" />
                         </div>
-                        <h3 className="text-3xl font-bold font-display text-primary mb-4">ไม่พบสถานที่ที่กำลังมองหา</h3>
-                        <p className="text-on-surface-variant text-lg mb-10">ลองปรับเปลี่ยนคำค้นหาหรือตัวกรอง แล้วลองใหม่อีกครั้งนะครับ</p>
-                        <button 
+                        <h3 className="text-3xl font-bold font-display text-primary mb-4">{t('explore', 'noTracksTitle')}</h3>
+                        <p className="text-on-surface-variant text-lg mb-10">{t('explore', 'noTracksDesc')}</p>
+                        <button
                             onClick={() => {
                                 setSearchQuery("");
                                 setFilters({ minRating: 0, restrooms: false, water: false, parking: false, lockers: false });
@@ -403,7 +399,7 @@ export default function ExplorePage() {
                             }}
                             className="bg-primary text-white px-10 py-4 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg active:scale-95"
                         >
-                            รีเซ็ตตัวกรองทั้งหมด
+                            {t('explore', 'btnReset')}
                         </button>
                     </div>
                 )}
@@ -411,7 +407,7 @@ export default function ExplorePage() {
                 {/* Load More Button */}
                 {!isLoadingTracks && nearbyTracks.length < totalTracks && (
                     <div className="mt-20 flex justify-center">
-                        <button 
+                        <button
                             onClick={handleLoadMore}
                             disabled={isFetchingMore}
                             className={cn(
@@ -423,11 +419,11 @@ export default function ExplorePage() {
                             {isFetchingMore ? (
                                 <>
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    กำลังโหลด...
+                                    {t('explore', 'btnLoading')}
                                 </>
                             ) : (
                                 <>
-                                    ดูเพิ่มเติม
+                                    {t('explore', 'btnLoadMore')}
                                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                                 </>
                             )}
@@ -438,7 +434,9 @@ export default function ExplorePage() {
                 {/* End of Results Message */}
                 {!isLoadingTracks && nearbyTracks.length > 0 && nearbyTracks.length >= totalTracks && (
                     <div className="mt-20 text-center">
-                        <p className="text-on-surface-variant font-medium opacity-60">สำรวจครบทุกเส้นทางตามตัวกรองแล้ว ✨</p>
+                        <p className="text-on-surface-variant font-medium opacity-60">
+                            {t('explore', 'endOfResults')}
+                        </p>
                     </div>
                 )}
             </section>
@@ -449,7 +447,7 @@ export default function ExplorePage() {
                 isFilterOpen ? "visible" : "invisible"
             )}>
                 {/* Backdrop */}
-                <div 
+                <div
                     className={cn(
                         "absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-500",
                         isFilterOpen ? "opacity-100" : "opacity-0"
@@ -463,8 +461,8 @@ export default function ExplorePage() {
                     isFilterOpen ? "translate-x-0" : "translate-x-full"
                 )}>
                     <div className="flex justify-between items-center mb-12">
-                        <h2 className="text-4xl font-bold font-display text-primary">ตัวกรอง</h2>
-                        <button 
+                        <h2 className="text-4xl font-bold font-display text-primary">{t('explore', 'drawerTitle')}</h2>
+                        <button
                             onClick={() => setIsFilterOpen(false)}
                             className="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-surface-variant transition-colors"
                         >
@@ -475,7 +473,7 @@ export default function ExplorePage() {
                     <div className="flex-1 space-y-12 overflow-y-auto pr-2 scrollbar-none">
                         {/* Rating Filter */}
                         <div className="space-y-6">
-                            <h3 className="text-xl font-bold font-display text-on-surface">คะแนนความพึงพอใจ</h3>
+                            <h3 className="text-xl font-bold font-display text-on-surface">{t('explore', 'ratingLabel')}</h3>
                             <div className="flex flex-wrap gap-3">
                                 {[4, 3, 2, 1].map((rating) => (
                                     <button
@@ -489,7 +487,7 @@ export default function ExplorePage() {
                                         )}
                                     >
                                         <Star className={cn("w-4 h-4", filters.minRating === rating ? "fill-current" : "")} />
-                                        <span>{rating}+ ดาว</span>
+                                        <span>{rating}+ {t('explore', 'ratingUp')}</span>
                                     </button>
                                 ))}
                             </div>
@@ -497,13 +495,13 @@ export default function ExplorePage() {
 
                         {/* Facilities Filter */}
                         <div className="space-y-6">
-                            <h3 className="text-xl font-bold font-display text-on-surface">สิ่งอำนวยความสะดวก</h3>
+                            <h3 className="text-xl font-bold font-display text-on-surface">{t('explore', 'facilitiesLabel')}</h3>
                             <div className="grid grid-cols-1 gap-4">
                                 {[
-                                    { key: "restrooms", label: "มีห้องน้ำ", icon: User },
-                                    { key: "water", label: "จุดดื่มน้ำ", icon: Droplets },
-                                    { key: "parking", label: "ที่จอดรถ", icon: Car },
-                                    { key: "lockers", label: "ตู้ล็อกเกอร์", icon: Lock }
+                                    { key: "restrooms", label: t('explore', 'facilityRestrooms'), icon: User },
+                                    { key: "water", label: t('explore', 'facilityWater'), icon: Droplets },
+                                    { key: "parking", label: t('explore', 'facilityParking'), icon: Car },
+                                    { key: "lockers", label: t('explore', 'facilityLockers'), icon: Lock }
                                 ].map((item) => (
                                     <button
                                         key={item.key}
@@ -535,16 +533,16 @@ export default function ExplorePage() {
 
                     {/* Action Buttons */}
                     <div className="pt-10 mt-auto border-t border-outline-variant/20 grid grid-cols-2 gap-4">
-                        <button 
+                        <button
                             onClick={() => {
                                 setFilters({ minRating: 0, restrooms: false, water: false, parking: false, lockers: false });
                                 setIsFilterOpen(false);
                             }}
                             className="py-5 rounded-2xl font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors"
                         >
-                            ล้างทั้งหมด
+                            {t('explore', 'btnClearAll')}
                         </button>
-                        <button 
+                        <button
                             onClick={() => setIsFilterOpen(false)}
                             className="py-5 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-95"
                         >

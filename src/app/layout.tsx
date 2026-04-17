@@ -3,6 +3,7 @@ import { IBM_Plex_Sans_Thai, Inter } from "next/font/google";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { CookieConsent } from "@/components/ui/CookieConsent";
+import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 
 
@@ -33,16 +34,18 @@ export default function RootLayout({
       className={`${ibmPlexSansThai.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-on-surface">
-        {/* Global Floating Frosted Navigation */}
-        <Navbar />
+        <LanguageProvider>
+          {/* Global Floating Frosted Navigation */}
+          <Navbar />
 
-        {/* Since the nav is fixed and transparent, components need top padding if they want to sit below it, but we handle that per page */}
-        <div className="flex-1 flex flex-col">
-          {children}
-        </div>
-        
-        <Footer />
-        <CookieConsent />
+          {/* Since the nav is fixed and transparent, components need top padding if they want to sit below it, but we handle that per page */}
+          <div className="flex-1 flex flex-col">
+            {children}
+          </div>
+          
+          <Footer />
+          <CookieConsent />
+        </LanguageProvider>
       </body>
     </html>
   );
