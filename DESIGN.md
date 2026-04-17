@@ -1,121 +1,87 @@
-# Design System Document: YARKVING
+# Design System Document: YARKVING (The Digital Park)
 
 ## 1. Overview & Creative North Star
 **Creative North Star: "The Digital Park"**
 
-This design system transcends the typical "fitness tracker" aesthetic by moving away from aggressive, high-energy visuals toward a philosophy of **Organic Editorialism**. We are not building a dashboard; we are curating a digital landscape. 
-
-To achieve the "Ultra-minimalist" yet "Professional" vibe for both Thai elderly and youth, the system breaks the traditional rigid grid. We utilize **intentional asymmetry**, expansive **white space (the "Cream" breathing room)**, and **overlapping 3D topographic elements** that break out of their containers. The goal is to evoke the feeling of a morning run: calm, effortless, and invigorating.
+YARKVING's design philosophy is centered around **Organic Editorialism**. Moving away from high-intensity fitness visuals, we create a digital landscape that is calm, professional, and accessible. The interface should evoke the feeling of a morning run: expansive, effortless, and invigorating.
 
 ---
 
-## 2. Colors & Surface Philosophy
-The palette is rooted in nature, using the Sage Green and Cream to create a high-end, tactile feel reminiscent of premium stationery or park signage.
+## 2. Visual Fundamentals
 
-### The "No-Line" Rule
-**Explicit Instruction:** Designers are prohibited from using 1px solid borders for sectioning. Boundaries must be defined solely through background color shifts or subtle tonal transitions. 
-*   *Implementation:* A `surface-container-low` section sitting on a `background` surface is the only way to define a layout block.
+### 2.1 Color Palette (Actual Tokens)
+The palette is rooted in nature, using Sage Green and Cream to create a tactile, premium feel.
 
-### Surface Hierarchy & Nesting
-Treat the UI as a series of physical layers—like stacked sheets of fine, heavy-weight paper.
-*   **Base:** `surface` (#fefae7 - Cream)
-*   **Sectioning:** `surface-container-low` (#f8f4e1)
-*   **Emphasis:** `surface-container-high` (#ece8d6) for interactive elements.
+| Token | Hex | Role |
+| :--- | :--- | :--- |
+| `background` | `#fefae7` | Primary page background (Cream) |
+| `surface` | `#fefae7` | Base surface for cards and UI elements |
+| `primary` | `#466649` | Headlines, primary buttons (Sage Green) |
+| `primary-container`| `#85a787` | Hover states, subtle highlights |
+| `secondary` | `#53634d` | Sub-headlines, secondary emphasis |
+| `tertiary-container`| `#e58800` | Warning, pulse badges (Amber) |
+| `on-surface` | `#1d1c11` | Primary text (Deep Charcoal - Never #000) |
+| `outline-variant` | `#c2c8bf` | Subtle borders, dividers (at 20% opacity) |
 
-### The "Glass & Gradient" Rule
-To avoid a flat, "template" look:
-*   **Floating Elements:** Use `surface-container-lowest` (#ffffff) with a 60% opacity and a `24px` backdrop-blur to create a "Frosted Cream" effect for navigation bars or floating action buttons.
-*   **Signature Textures:** Use a subtle linear gradient (Top-Left to Bottom-Right) from `primary` (#466649) to `primary-container` (#85a787) for hero CTAs to provide depth and "soul."
+### 2.2 Surface Philosophy: The "No-Line" Rule
+*   **Boundaries**: Strictly avoid 1px solid borders for sectioning. Use background shifts (e.g., `surface` vs `surface-container-low`) or spacing to define layout blocks.
+*   **Frosted Glass**: For floating elements (Nav, Popups, Cookie Banner), use `surface-container-lowest/80` with `backdrop-blur-xl` and a `shadow-ambient`.
 
 ---
 
-## 3. Typography: The Editorial Voice
-We utilize a dual-font strategy to ensure accessibility for the elderly while maintaining a contemporary edge for youth.
+## 3. Typography & Accessibility
 
-*   **Display & Headlines (Plus Jakarta Sans):** A high-character, modern sans-serif. Use `display-lg` (3.5rem) for hero moments to create an "Editorial" impact. For Thai characters, ensure line-height is increased to 1.6x to prevent glyph clipping.
-*   **Body & Titles (Be Vietnam Pro):** Chosen for its exceptional legibility at large scales.
-*   **Accessibility Note:** The "Standard" body size is `body-lg` (1rem / 16px). For the "Elderly Mode," scale all `body` tokens up by 1.25x while maintaining the same weight.
+Dual-font strategy Optimized for Thai and Latin characters.
 
-| Role | Token | Size | Weight |
+*   **Display/Headlines**: `IBM Plex Sans Thai` (700 Bold). 
+    *   Line-height: `leading-[1.1]` for headlines.
+    *   Thai Letter-spacing: Wide for clarity.
+*   **Body/UI**: `IBM Plex Sans Thai` (400 Regular / 500 Medium).
+*   **Mono**: `Inter` (used for distance, ratings, and credits).
+
+### Typography Scale
+| Role | Size | Weight | Line-Height |
 | :--- | :--- | :--- | :--- |
-| **Hero Title** | `display-md` | 2.75rem | 700 (Bold) |
-| **Track Name** | `headline-sm` | 1.5rem | 600 (SemiBold) |
-| **Navigation** | `title-md` | 1.125rem | 500 (Medium) |
-| **Body Text** | `body-lg` | 1rem | 400 (Regular) |
+| **Hero Title** | `6xl` / `7xl` | 700 | 1.1 |
+| **Track Name** | `2xl` | 700 | Normal |
+| **Body Text** | `lg` / `xl` | 400 | Relaxed |
+| **Labels** | `xs` / `sm` | 600 | Tight |
 
 ---
 
-## 4. Elevation & Depth
-In this system, depth is "felt" rather than "seen."
+## 4. Layout & Components
 
-### Tonal Layering
-Depth is achieved by stacking surface tiers. Place a `surface-container-lowest` card on a `surface-container-low` section. This creates a soft, natural lift without the "dirtiness" of heavy shadows.
+### 4.1 Grid & Spacing
+- **Container**: Max width `7xl` (1280px).
+- **Section Padding**: Vertical padding `py-24` (96px) for major sections.
+- **Grids**: Use `gap-12` (48px) for card grids to maintain "breathing room."
 
-### Ambient Shadows
-When a "floating" effect is required (e.g., a "Popular Now" badge):
-*   **Shadow Color:** Use a tinted version of the surface color: `rgba(29, 28, 17, 0.06)`. 
-*   **Properties:** `0px 12px 32px`. This mimics natural, ambient park light.
+### 4.2 Buttons: The "Pebble" Style
+- **Shape**: `rounded-[2rem]` or `rounded-full` (never sharp corners).
+- **Height**: Standard `h-14`, Hero `h-20`.
+- **Primary**: `bg-primary` with `text-white`. Soft shadow `shadow-lg shadow-primary/10`.
+- **Interaction**: Transition `active:scale-[0.98]` and `hover:scale-[1.01]`.
 
-### The "Ghost Border"
-If a border is required for accessibility (e.g., input fields), use the `outline-variant` (#c2c8bf) at **20% opacity**. Never use 100% opaque borders.
+### 4.3 Card Design
+- **Elevation**: Use `shadow-ambient` (Soft bloom shadow) instead of heavy borders.
+- **Image Handling**: `rounded-xl` with `aspect-[4/3]`. Use `object-cover`.
+- **Hover**: Subtle vertical translation (`group-hover:-translate-y-1`) and image zoom (`group-hover:scale-105`).
 
----
-
-## 5. Components
-
-### 3D Topographic Elements
-These are the "Signature" of this design system. Map elements should not be flat. Use 3D renders of tracks with soft Sage Green shadows. Allow the "peaks" of the topography to overlap the containers above them to break the "boxed-in" feel.
-
-### Buttons: The "Pebble" Style
-*   **Primary:** Background `primary` (#466649), text `on-primary` (#ffffff). Shape: `xl` (1.5rem) for a friendly, soft feel.
-*   **Secondary:** Background `secondary-container` (#d4e5ca), text `on-secondary-container`. 
-*   **Padding:** Massive horizontal padding (2rem) to ensure a high-end, non-cramped look.
-
-### "Popular Now" Badges
-*   **Visual:** `tertiary-container` (#e58800) background with `on-tertiary-container` text. 
-*   **Styling:** Use `full` roundedness and a subtle pulse animation to signify "Vibrancy" without being intrusive.
-
-### Cards & Lists
-*   **Constraint:** **Strictly forbid divider lines.** 
-*   **Separation:** Use `32px` of vertical white space or a shift from `surface` to `surface-container-lowest`. 
-*   **Interactions:** On hover, a card should not move up; instead, it should transition its background color slightly toward `surface-bright`.
-
-### Inputs (Elderly Friendly)
-*   **Height:** Minimum 64px.
-*   **Label:** Always visible (never floating) in `label-md`, placed 8px above the field.
+### 4.4 Global Overlays
+- **Cookie Consent / Popups**: Position bottom-right. Use 80% opacity frosted background with `24px` blur to ensure readability over maps.
 
 ---
 
-## 6. Do’s and Don’ts
+## 5. UI/UX Standards Checklist
 
-### Do:
-*   **Use Asymmetry:** Place a 3D map element slightly off-center to create a dynamic, modern feel.
-*   **Prioritize Thai Legibility:** Use wider letter-spacing for Thai headlines to ensure "ease of use" for the elderly.
-*   **Embrace the Cream:** Use the `background` color generously. Negative space is a luxury feature.
-
-### Don’t:
-*   **Don't use Black (#000000):** Use `on-surface` (#1d1c11) for text. Pure black is too harsh for a "serene" park-like aesthetic.
-*   **Don't use 90-degree corners:** Use the `roundedness-lg` (1rem) or `xl` (1.5rem) scale for everything. Sharp corners are aggressive.
-*   **Don't use standard icons:** Use "Minimalist" stroke icons with a 1.5pt weight and rounded caps to match the Sage Green's softness.
+1.  **Strictly No Pure Black**: Use `on-surface` (#1d1c11) for all text and icons.
+2.  **Soft Transitions**: All interactive elements MUST have a `duration-300` or `duration-500` transition.
+3.  **Image Attribution**: All fetched images MUST display a `© imageCredit` overlay in the bottom-right corner.
+4.  **Empty States**: Always provide a polite message (e.g., "ยังไม่มีรีวิว...") instead of leaving sections blank.
+5.  **Thai Accessibility**: Ensure `leading-relaxed` for Thai paragraph text to prevent overlapping characters.
 
 ---
 
-## 7. Raw Tokens extracted from Project Theme
-
-### Typography
-- **Headline Font:** Plus Jakarta Sans
-- **Body Font:** Be Vietnam Pro
-- **Label Font:** Be Vietnam Pro
-
-### Extracted Core Colors (Light Mode)
-- **Primary:** `#466649`
-- **Primary Container:** `#85a787`
-- **Secondary:** `#53634d`
-- **Secondary Container:** `#d4e5ca`
-- **Tertiary:** `#8b5000`
-- **Tertiary Container:** `#e58800`
-- **Background / Surface:** `#fefae7`
-- **Surface Container Low:** `#f8f4e1`
-- **Surface Container High:** `#ece8d6`
-- **On Surface (Text):** `#1d1c11`
-- **Custom App Color:** `#86A789`
+## 6. Implementation Notes
+- **Utility Layer**: Use `clsx` and `tailwind-merge` for component modularity.
+- **Icons**: Use `lucide-react` with a stroke width of `1.5` or `2.0` for a professional, clean look.
