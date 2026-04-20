@@ -1,5 +1,5 @@
 import React from "react";
-import prisma from "@/lib/prisma";
+import { trackService } from "@/lib/trackService";
 import { notFound } from "next/navigation";
 import { TrackDetailsContent } from "@/components/ui/TrackDetailsContent";
 
@@ -9,26 +9,23 @@ type Props = {
 
 export default async function TrackDetailsPage({ params }: Props) {
   const { id } = await params;
-  const track = await prisma.track.findUnique({
-    where: { id },
-    include: {
-      reviews: {
-        orderBy: { rating: 'desc' },
-        take: 4
-      }
-    }
-  });
+  const track = trackService.getById(id);
 
   if (!track) {
     notFound();
   }
+
+  // Handle review sorting (static data already has reviews)
+  const sortedReviews = [...(track.reviews || [])]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 4);
 
   // Ensure types match what TrackDetailsContent expects
   const serializedTrack = {
     ...track,
     rating: track.rating || 0,
     distance: track.distance ? parseFloat(track.distance.toString()) : null,
-    reviews: track.reviews.map(review => ({
+    reviews: sortedReviews.map(review => ({
       ...review,
       rating: review.rating || 0
     }))

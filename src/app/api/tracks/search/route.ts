@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { trackService } from '@/lib/trackService';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,35 +10,16 @@ export async function GET(request: Request) {
   }
 
   try {
-    const tracks = await prisma.track.findMany({
-      where: {
-        AND: [
-          {
-            OR: [
-              { name: { contains: query } },
-              { description: { contains: query } },
-              { district: { contains: query } },
-              { address: { contains: query } }
-            ]
-          },
-          {
-            OR: [
-              { address: { contains: 'Bangkok' } },
-              { address: { contains: 'Krung Thep Maha Nakhon' } }
-            ]
-          }
-        ]
-      },
-      take: 8,
-      select: {
-        id: true,
-        name: true,
-        imageUrl: true,
-        rating: true,
-      }
-    });
+    const tracks = trackService.search(query, 8);
+    // Mimic the previous select structure
+    const mappedTracks = tracks.map(t => ({
+      id: t.id,
+      name: t.name,
+      imageUrl: t.imageUrl,
+      rating: t.rating,
+    }));
 
-    return NextResponse.json({ tracks });
+    return NextResponse.json({ tracks: mappedTracks });
   } catch (error) {
     console.error('Error searching tracks:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
