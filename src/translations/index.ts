@@ -1,4 +1,4 @@
-export type TranslationCategory = 'common' | 'navbar' | 'home' | 'explore' | 'details' | 'about' | 'footer' | 'cookie';
+export type TranslationCategory = 'common' | 'navbar' | 'home' | 'explore' | 'details' | 'about' | 'footer' | 'cookie' | 'trackDetails';
 
 export const translations = {
   th: {
@@ -106,6 +106,24 @@ export const translations = {
       story3: 'เราจึงสร้าง YARKVING ขึ้นมา เพื่อให้ผู้คนสามารถค้นหา บันทึก และแบ่งปันเส้นทางวิ่งในโลกจริง พร้อมต่อยอดไปสู่การเป็น community ของคนรักสุขภาพในอนาคต',
       visionTitle: 'วิสัยทัศน์ของเรา',
       visionDesc: 'เราต้องการสร้างแพลตฟอร์มที่เชื่อมโยงผู้คนผ่านการวิ่งและการออกกำลังกาย จากการค้นหาสถานที่ ไปสู่การแบ่งปันประสบการณ์ และเติบโตเป็นชุมชนสุขภาพที่แข็งแรงและยั่งยืน',
+    },
+    trackDetails: {
+      backToTracks: 'กลับสู่รายการสวน',
+      reviews: 'รีวิว',
+      photoCredit: 'เครดิตภาพ',
+      distance: 'ระยะทาง',
+      surface: 'พื้นผิว',
+      elevation: 'ความสูง',
+      difficulty: 'ระดับความยาก',
+      description: 'รายละเอียด',
+      bestTimes: 'เวลาที่แนะนำ',
+      facilities: 'สิ่งอำนวยความสะดวก',
+      openInMaps: 'นำทางด้วย Google Maps',
+      trackTopology: 'โครงสร้างเส้นทาง',
+      locationMap: 'แผนที่สถานที่ตั้ง',
+      userReviews: 'ความพึงพอใจจากนักวิ่ง',
+      outOfFive: 'จาก 5 คะแนน',
+      reviewsPoweredBy: 'ข้อมูลรีวิวโดย Google Maps',
     }
   },
   en: {
@@ -213,6 +231,24 @@ export const translations = {
       story3: 'So we created YARKVING for people to find, save, and share real-world tracks, evolving into a health community in the future.',
       visionTitle: 'Our Vision',
       visionDesc: 'We want to build a platform that connects people through running and exercise, from finding places to sharing experiences, and growing into a healthy and sustainable community.',
+    },
+    trackDetails: {
+      backToTracks: 'Back to Tracks',
+      reviews: 'reviews',
+      photoCredit: 'Photo Credit',
+      distance: 'Distance',
+      surface: 'Surface',
+      elevation: 'Elevation',
+      difficulty: 'Difficulty',
+      description: 'Description',
+      bestTimes: 'Best Times to Run',
+      facilities: 'Facilities',
+      openInMaps: 'Open in Google Maps',
+      trackTopology: 'Track Topology',
+      locationMap: 'Location Map',
+      userReviews: 'Runner Reviews',
+      outOfFive: 'out of 5',
+      reviewsPoweredBy: 'Reviews powered by Google Maps',
     }
   }
 };
