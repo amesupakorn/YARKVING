@@ -36,7 +36,14 @@ export async function GET(request: Request) {
   }
 
   try {
-    const tracks = await prisma.track.findMany();
+    const tracks = await prisma.track.findMany({
+      where: {
+        OR: [
+          { address: { contains: 'Bangkok' } },
+          { address: { contains: 'Krung Thep Maha Nakhon' } }
+        ]
+      }
+    });
     
     // คำนวณระยะทางสำหรับแต่ละสถานที่
     const tracksWithDistance = tracks.map((track) => {
@@ -78,8 +85,15 @@ export async function GET(request: Request) {
     if (query) {
       filteredTracks = filteredTracks.filter(track => 
         track.name.toLowerCase().includes(query) || 
-        track.description?.toLowerCase().includes(query)
+        track.description?.toLowerCase().includes(query) ||
+        track.district?.toLowerCase().includes(query) ||
+        track.address?.toLowerCase().includes(query)
       );
+    }
+
+    const districtParam = searchParams.get('district');
+    if (districtParam) {
+      filteredTracks = filteredTracks.filter(track => track.district === districtParam);
     }
 
     const minRating = parseFloat(searchParams.get('minRating') || '0');

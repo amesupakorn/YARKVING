@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Search, MapPin, Star, CheckCircle2, ArrowRight, LayoutGrid } from "lucide-react";
@@ -13,6 +13,7 @@ interface Track {
   imageUrl: string | null;
   rating: number | null;
   imageCredit: string | null;
+  district?: string | null;
 }
 
 interface HomeContentProps {
@@ -22,6 +23,47 @@ interface HomeContentProps {
 
 export function HomeContent({ trackCount, topTracks }: HomeContentProps) {
   const { t, lang } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Track[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Debounce search
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/tracks/search?q=${encodeURIComponent(searchQuery)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setSearchResults(data.tracks);
+        }
+      } catch (error) {
+        console.error("Search error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Click outside handling
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsFocused(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <main className="w-full pb-24 bg-surface">
@@ -43,15 +85,87 @@ export function HomeContent({ trackCount, topTracks }: HomeContentProps) {
             </div>
 
             {/* Custom Styled Search Bar */}
-            <div className="relative max-w-xl group">
-              <div className="absolute inset-y-0 left-8 flex items-center pointer-events-none">
-                <Search className="w-6 h-6 text-outline" strokeWidth={1.5} />
+            <div className="relative max-w-xl group" ref={searchRef}>
+              <div className="absolute inset-y-0 left-8 flex items-center pointer-events-none z-10">
+                {isLoading ? (
+                  <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                ) : (
+                  <Search className="w-6 h-6 text-outline" strokeWidth={1.5} />
+                )}
               </div>
               <input
                 className="w-full h-20 pl-20 pr-10 bg-white border-none rounded-[2rem] text-xl shadow-ambient focus:ring-8 focus:ring-primary/5 transition-all placeholder:text-outline-variant outline-none font-sans"
                 placeholder={t('home', 'searchPlaceholder')}
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsFocused(true)}
               />
+
+              {/* Search Results Dropdown */}
+              {isFocused && (searchQuery || isLoading) && (
+                <div className="absolute top-full left-0 right-0 mt-4 bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-ambient-heavy border border-white/50 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="max-h-[400px] overflow-y-auto p-4 scrollbar-none">
+                    {isLoading ? (
+                      <div className="py-8 text-center text-on-surface-variant font-medium flex flex-col items-center gap-3">
+                        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                        {t('common', 'loading')}
+                      </div>
+                    ) : searchResults.length > 0 ? (
+                      <div className="space-y-2">
+                        <div className="px-4 py-2 text-xs font-bold text-outline uppercase tracking-wider">
+                          {t('home', 'popularTracks')}
+                        </div>
+                        {searchResults.map((track) => (
+                          <Link
+                            key={track.id}
+                            href={`/track/${track.id}`}
+                            className="flex items-center gap-5 p-4 rounded-2xl hover:bg-primary/5 transition-colors group/item"
+                          >
+                            <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container shadow-sm group-hover/item:shadow-md transition-shadow">
+                              <img
+                                src={track.imageUrl || "/image/default-track.png"}
+                                alt={track.name}
+                                className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500"
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-bold text-on-surface text-lg truncate group-hover/item:text-primary transition-colors">
+                                {track.name}
+                              </h4>
+                              <div className="flex items-center gap-2 text-sm text-on-surface-variant font-medium">
+                                <Star className="w-3.5 h-3.5 fill-tertiary text-tertiary" />
+                                <span>{track.rating?.toFixed(1) || "0.0"}</span>
+                                <span className="text-outline-variant">•</span>
+                                <span>{track.district || (lang === 'th' ? 'กรุงเทพฯ' : 'Bangkok')}</span>
+                              </div>
+                            </div>
+                            <ArrowRight className="w-5 h-5 text-outline opacity-0 group-hover/item:opacity-100 -translate-x-2 group-hover/item:translate-x-0 transition-all text-primary" />
+                          </Link>
+                        ))}
+                      </div>
+                    ) : searchQuery ? (
+                      <div className="py-12 text-center text-on-surface-variant flex flex-col items-center gap-4">
+                        <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center">
+                          <Search className="w-8 h-8 opacity-20" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-lg text-on-surface">ไม่พบผลการค้นหา</p>
+                          <p className="text-sm">ลองเปลี่ยนชื่อสถานที่ หรือเขตที่คุณสนใจ</p>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                  {searchResults.length > 0 && (
+                    <Link
+                      href="/explore"
+                      className="block p-5 bg-surface/50 border-t border-outline-variant/10 text-center font-bold text-primary hover:bg-primary/5 transition-colors"
+                    >
+                      {t('home', 'btnExploreAll')}
+                    </Link>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Feature Highlights */}
@@ -146,7 +260,7 @@ export function HomeContent({ trackCount, topTracks }: HomeContentProps) {
                   <h3 className="text-2xl font-bold font-display group-hover:text-primary transition-colors">{track.name}</h3>
                 </div>
                 <div className="flex items-center text-on-surface-variant gap-2 font-medium">
-                  <MapPin className="w-5 h-5 text-outline" strokeWidth={1} /> {lang === 'th' ? 'กรุงเทพมหานคร' : 'Bangkok'}
+                  <MapPin className="w-5 h-5 text-outline" strokeWidth={1} /> {track.district || (lang === 'th' ? 'กรุงเทพฯ' : 'Bangkok')}
                 </div>
                 <div className="pt-4 flex items-center justify-between border-t border-outline-variant/20">
                   <div className="flex items-center gap-1 text-tertiary">

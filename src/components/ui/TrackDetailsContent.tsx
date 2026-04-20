@@ -34,6 +34,7 @@ interface Track {
   longitude: number;
   googlePlaceId: string | null;
   imageCredit: string | null;
+  district: string | null;
   reviews: Review[];
 }
 
@@ -68,6 +69,12 @@ export function TrackDetailsContent({ track }: TrackDetailsContentProps) {
                 {track.rating.toFixed(1)} ({track.reviews.length} {t('trackDetails', 'reviews')})
               </span>
             </div>
+            {track.district && (
+              <div className="flex items-center text-white gap-2 bg-primary/30 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
+                <MapPin className="w-3.5 h-3.5" />
+                <span className="text-sm font-bold uppercase tracking-wider">{track.district}</span>
+              </div>
+            )}
           </div>
           <h1 className="text-white text-5xl md:text-7xl font-bold font-display mb-2 tracking-tight drop-shadow-md">{track.name}</h1>
         </div>

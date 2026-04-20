@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, MapPin, Star, Filter, Navigation, ArrowRight, X, Droplets, Car, Lock, User, Check } from "lucide-react";
+import { Search, MapPin, Star, Filter, Navigation, ArrowRight, X, Droplets, Car, Lock, User, Check, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 import MapWrapper from "@/components/ui/MapWrapper";
@@ -15,6 +15,7 @@ interface Track {
     latitude: number;
     longitude: number;
     distance: number;
+    district?: string | null;
 }
 
 export default function ExplorePage() {
@@ -38,8 +39,47 @@ export default function ExplorePage() {
         restrooms: false,
         water: false,
         parking: false,
-        lockers: false
+        lockers: false,
+        district: ""
     });
+    const [isDistrictDropdownOpen, setIsDistrictDropdownOpen] = useState(false);
+    const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
+
+    const DISTRICT_THAI_MAP: Record<string, string> = {
+        "Bang Bon": "บางบอน", "Bang Kapi": "บางกะปิ", "Bang Khae": "บางแค", "Bang Khen": "บางเขน", "Bang Kho Laem": "บางคอแหลม",
+        "Bang Khun Thian": "บางขุนเทียน", "Bang Na": "บางนา", "Bang Phlat": "บางพลัด", "Bang Rak": "บางรัก", "Bang Sue": "บางซื่อ",
+        "Bangkok Noi": "บางกอกน้อย", "Bangkok Yai": "บางกอกใหญ่", "Bueng Kum": "บึงกุ่ม", "Chatuchak": "จตุจักร", "Chom Thong": "จอมทอง",
+        "Din Daeng": "ดินแดง", "Don Mueang": "ดอนเมือง", "Dusit": "ดุสิต", "Huai Khwang": "ห้วยขวาง", "Khan Na Yao": "คันนายาว",
+        "Khlong Sam Wa": "คลองสามวา", "Khlong San": "คลองสาน", "Khlong Toei": "คลองเตย", "Lak Si": "หลักสี่", "Lat Krabang": "ลาดกระบัง",
+        "Lat Phrao": "ลาดพร้าว", "Min Buri": "มีนบุรี", "Nong Chok": "หนองจอก", "Nong Khaem": "หนองแขม", "Pathum Wan": "ปทุมวัน",
+        "Phasi Charoen": "ภาษีเจริญ", "Phaya Thai": "พญาไท", "Phra Khanong": "พระโขนง", "Phra Nakhon": "พระนคร", "Prawet": "ประเวศ",
+        "Rat Burana": "ราษฎร์บูรณะ", "Ratchathewi": "ราชเทวี", "Sai Mai": "สายไหม", "Samphanthawong": "สัมพันธวงศ์",
+        "Saphan Sung": "สะพานสูง", "Sathon": "สาทร", "Suan Luang": "สวนหลวง", "Taling Chan": "ตลิ่งชัน", "Thawi Watthana": "ทวีวัฒนา",
+        "Thon Buri": "ธนบุรี", "Thung Khru": "ทุ่งครุ", "Wang Thonglang": "วังทองหลาง", "Watthana": "วัฒนา", "Yan Nawa": "ยานนาวา",
+        "Tambon Bang Kraso": "นนทบุรี (บางกระสอ)", "Tambon Talat Kwan": "นนทบุรี (ตลาดขวัญ)", "Tambon Bang Khen": "นนทบุรี (บางเขน)",
+        "Suan Yai": "นนทบุรี (สวนใหญ่)", "Phutthamonthon District": "นครปฐม (พุทธมณฑล)", "Phra Samut Chedi District": "สมุทรปราการ (พระสมุทรเจดีย์)", 
+        "Phra Pradaeng District": "สมุทรปราการ (พระประแดง)", "Tambon Pak Nam": "สมุทรปราการ (ปากน้ำ)"
+    };
+
+    const getDistrictDisplayName = (d: string) => {
+        if (!d) return "";
+        if (lang === 'th') {
+            if (/[\u0E00-\u0E7F]/.test(d)) return d; // Already Thai
+            return DISTRICT_THAI_MAP[d] || d; // Translate or fallback
+        }
+        return d;
+    };
+
+    useEffect(() => {
+        let mounted = true;
+        fetch('/api/tracks/districts')
+            .then(res => res.json())
+            .then(data => {
+                if (mounted && data.districts) setAvailableDistricts(data.districts);
+            })
+            .catch(err => console.error("Failed to load districts:", err));
+        return () => { mounted = false; };
+    }, []);
 
     // Debounce search query
     useEffect(() => {
@@ -76,7 +116,8 @@ export default function ExplorePage() {
                     restrooms: filters.restrooms.toString(),
                     water: filters.water.toString(),
                     parking: filters.parking.toString(),
-                    lockers: filters.lockers.toString()
+                    lockers: filters.lockers.toString(),
+                    district: filters.district
                 }).toString();
 
                 const res = await fetch(`/api/tracks/nearby?${filterParams}`);
@@ -134,7 +175,8 @@ export default function ExplorePage() {
                 restrooms: filters.restrooms.toString(),
                 water: filters.water.toString(),
                 parking: filters.parking.toString(),
-                lockers: filters.lockers.toString()
+                lockers: filters.lockers.toString(),
+                district: filters.district
             }).toString();
 
             const res = await fetch(`/api/tracks/nearby?${filterParams}`);
@@ -247,12 +289,12 @@ export default function ExplorePage() {
                         onClick={() => setIsFilterOpen(true)}
                         className={cn(
                             "bg-surface-container-lowest border border-outline-variant/10 px-8 py-4 rounded-[2rem] font-bold flex items-center justify-center gap-3 hover:bg-surface-variant transition-colors whitespace-nowrap shadow-sm text-on-surface",
-                            (filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers) && "border-primary/50 bg-primary/5 text-primary"
+                            (filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers || filters.district) && "border-primary/50 bg-primary/5 text-primary"
                         )}
                     >
                         <Filter className="w-5 h-5" />
                         <span className="font-display">{t('explore', 'filters')}</span>
-                        {(filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers) && (
+                        {(filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers || filters.district) && (
                             <span className="w-2 h-2 bg-primary rounded-full" />
                         )}
                     </button>
@@ -372,7 +414,7 @@ export default function ExplorePage() {
                                         <h3 className="text-2xl font-bold font-display group-hover:text-primary transition-colors">{track.name}</h3>
                                     </div>
                                     <div className="flex items-center text-on-surface-variant gap-2 font-medium">
-                                        <MapPin className="w-5 h-5 text-outline" strokeWidth={1} /> {lang === 'th' ? 'กรุงเทพฯ' : 'Bangkok'}
+                                        <MapPin className="w-5 h-5 text-outline" strokeWidth={1} /> {track.district || (lang === 'th' ? 'กรุงเทพฯ' : 'Bangkok')}
                                     </div>
                                     <div className="pt-4 flex items-center justify-between border-t border-outline-variant/20">
                                         <div className="flex items-center gap-1 text-tertiary">
@@ -396,7 +438,7 @@ export default function ExplorePage() {
                         <button
                             onClick={() => {
                                 setSearchQuery("");
-                                setFilters({ minRating: 0, restrooms: false, water: false, parking: false, lockers: false });
+                                setFilters({ minRating: 0, restrooms: false, water: false, parking: false, lockers: false, district: "" });
                                 setActiveFilter("all");
                             }}
                             className="bg-primary text-white px-10 py-4 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg active:scale-95"
@@ -495,6 +537,59 @@ export default function ExplorePage() {
                             </div>
                         </div>
 
+                        {/* District Filter */}
+                        <div className="space-y-6">
+                            <h3 className="text-xl font-bold font-display text-on-surface">{lang === 'th' ? 'พื้นที่ / เขต' : 'District'}</h3>
+                            <div className="relative">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsDistrictDropdownOpen(!isDistrictDropdownOpen)}
+                                    className="w-full flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-2xl text-on-surface hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium shadow-sm"
+                                >
+                                    <span className={!filters.district ? "text-on-surface-variant" : "text-primary"}>
+                                        {filters.district ? getDistrictDisplayName(filters.district) : (lang === 'th' ? 'กรุงเทพมหานคร (ทั้งหมด)' : 'All Districts')}
+                                    </span>
+                                    <ChevronDown className={cn("w-5 h-5 text-outline transition-transform duration-300", isDistrictDropdownOpen && "rotate-180")} />
+                                </button>
+
+                                {isDistrictDropdownOpen && (
+                                    <>
+                                        <div
+                                            className="fixed inset-0 z-40"
+                                            onClick={() => setIsDistrictDropdownOpen(false)}
+                                        />
+                                        <div className="absolute top-full left-0 right-0 mt-2 p-2 bg-surface-container-lowest border border-outline-variant/20 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] z-50 max-h-[300px] overflow-y-auto animate-in fade-in zoom-in-95 duration-200 scrollbar-none">
+                                            <button
+                                                type="button"
+                                                onClick={() => { setFilters(prev => ({ ...prev, district: "" })); setIsDistrictDropdownOpen(false); }}
+                                                className={cn(
+                                                    "w-full flex items-center justify-between px-4 py-3 rounded-xl mb-1 hover:bg-surface-container-high transition-colors text-on-surface text-left",
+                                                    filters.district === "" ? "bg-primary/5 text-primary font-bold" : "text-on-surface-variant"
+                                                )}
+                                            >
+                                                <span>{lang === 'th' ? 'กรุงเทพมหานคร (ทั้งหมด)' : 'All Districts'}</span>
+                                                {filters.district === "" && <Check className="w-4 h-4" />}
+                                            </button>
+                                            {availableDistricts.map((d: string) => (
+                                                <button
+                                                    key={d}
+                                                    type="button"
+                                                    onClick={() => { setFilters(prev => ({ ...prev, district: d })); setIsDistrictDropdownOpen(false); }}
+                                                    className={cn(
+                                                        "w-full flex items-center justify-between px-4 py-3 rounded-xl mb-1 last:mb-0 hover:bg-surface-container-high transition-colors text-left",
+                                                        filters.district === d ? "bg-primary/5 text-primary font-bold" : "text-on-surface font-medium"
+                                                    )}
+                                                >
+                                                    <span>{getDistrictDisplayName(d)}</span>
+                                                    {filters.district === d && <Check className="w-4 h-4" />}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
                         {/* Facilities Filter */}
                         <div className="space-y-6">
                             <h3 className="text-xl font-bold font-display text-on-surface">{t('explore', 'facilitiesLabel')}</h3>
@@ -537,7 +632,7 @@ export default function ExplorePage() {
                     <div className="pt-10 mt-auto border-t border-outline-variant/20 grid grid-cols-2 gap-4">
                         <button
                             onClick={() => {
-                                setFilters({ minRating: 0, restrooms: false, water: false, parking: false, lockers: false });
+                                setFilters({ minRating: 0, restrooms: false, water: false, parking: false, lockers: false, district: "" });
                                 setIsFilterOpen(false);
                             }}
                             className="py-5 rounded-2xl font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors"

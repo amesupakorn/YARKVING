@@ -18,7 +18,7 @@ export function Navbar() {
     <nav className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl rounded-[1.5rem] md:rounded-full bg-surface-container-lowest/70 backdrop-blur-2xl shadow-ambient px-6 py-4 flex flex-col md:flex-row md:items-center justify-between border border-outline-variant/20 transition-all duration-300">
       <div className="flex items-center justify-between w-full md:w-auto">
         <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-          <Leaf className="w-6 h-6 text-primary" strokeWidth={1.5} />
+          <img src="/image/icon.png" alt="YARKVING Logo" className="w-7 h-7 object-contain" />
           <span className="font-display font-semibold text-xl tracking-tight text-primary">YARKVING</span>
         </Link>
         <div className="flex items-center gap-2">
