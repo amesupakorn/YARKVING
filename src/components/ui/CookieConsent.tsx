@@ -32,9 +32,9 @@ export function CookieConsent() {
   if (!isVisible) return null;
 
   return (
-    <div
+    <div 
       className={cn(
-        "fixed bottom-6 right-6 z-[100] max-w-[400px] w-[calc(100%-3rem)]",
+        "fixed bottom-4 left-4 right-4 sm:bottom-6 sm:right-6 sm:left-auto z-[100] sm:max-w-[400px]",
         "animate-in fade-in slide-in-from-bottom-10 duration-700 ease-out"
       )}
     >
@@ -69,7 +69,7 @@ export function CookieConsent() {
           <button
             onClick={handleAccept}
             className={cn(
-              "flex-1 bg-primary text-on-primary h-14 px-6 rounded-xl font-bold text-sm",
+              "flex-1 bg-primary text-on-primary h-14 rounded-xl font-bold text-sm",
               "hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm"
             )}
           >
@@ -78,7 +78,7 @@ export function CookieConsent() {
           <button
             onClick={handleDecline}
             className={cn(
-              "bg-secondary-container text-on-secondary-container px-6 h-14 rounded-xl font-semibold text-sm",
+              "flex-1 bg-secondary-container text-on-secondary-container h-14 rounded-xl font-semibold text-sm",
               "hover:bg-secondary-container/80 transition-all active:scale-[0.98]"
             )}
           >
