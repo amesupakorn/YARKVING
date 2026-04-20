@@ -20,7 +20,7 @@ export function KnowledgeHero() {
             <p className="text-xl md:text-2xl text-on-surface/70 leading-relaxed max-w-2xl mx-auto font-medium">
               {t('knowledge', 'subtitle')}
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
       

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Article } from "@/lib/articleService";
@@ -53,6 +52,6 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 }
