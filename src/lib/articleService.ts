@@ -21,7 +21,7 @@ const mockArticles: Article[] = [
     author: 'YARKVING',
     date: '2026-04-15',
     readTime: '5 min',
-    imageUrl: '/image/articles/beginner.webp',
+    imageUrl: '/image/articles/beginner.png',
     content: `
       ## การเริ่มต้นวิ่งสำหรับมือใหม่
       การวิ่งเป็นหนึ่งในการออกกำลังกายที่ง่ายและได้ผลดีที่สุด แต่สำหรับมือใหม่ที่เพิ่งเริ่มต้น การรู้วิธีที่ถูกต้องจะช่วยให้คุณวิ่งได้อย่างยั่งยืนและไม่บาดเจ็บ
