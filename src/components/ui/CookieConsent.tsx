@@ -78,7 +78,7 @@ export function CookieConsent() {
           <button
             onClick={handleDecline}
             className={cn(
-              "bg-secondary-container text-on-secondary-container px-6 h-14 rounded-xl font-semibold text-sm",
+              "flex-1 bg-secondary-container text-on-secondary-container h-14 rounded-xl font-semibold text-sm",
               "hover:bg-secondary-container/80 transition-all active:scale-[0.98]"
             )}
           >
