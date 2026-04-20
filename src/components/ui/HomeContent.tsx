@@ -181,42 +181,59 @@ export function HomeContent({ trackCount, topTracks }: HomeContentProps) {
             </div>
           </div>
 
-          {/* Right Column: Interactive Network Card */}
+          {/* Right Column: Interactive Network Card - Minimalist Scale */}
           <div className="relative hidden lg:block">
-            <div className="bg-white rounded-[3.5rem] p-8 shadow-ambient-heavy border border-white/50 relative overflow-hidden group">
-              {/* Map Container inside Card */}
-              <div className="relative h-[420px] rounded-[3rem] overflow-hidden bg-surface-container mb-8">
+            <div className="bg-white rounded-[2rem] p-4 shadow-ambient-heavy border border-white/50 relative overflow-hidden group">
+              {/* Visual Accent Decoration inside Card */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+              {/* Map Container - Ultra Compact */}
+              <div className="relative h-[350px] rounded-[1.5rem] overflow-hidden bg-surface-container mb-3 shadow-inner-ambient">
                 <HomeMap />
 
-                {/* Popular Areas Overlay */}
-                <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-3xl shadow-ambient z-30 flex items-center gap-5">
-                  <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
-                    <LayoutGrid className="w-7 h-7" />
+                {/* Live Indicator Overlay */}
+                <div className="absolute top-3 left-3 z-30">
+                  <div className="bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-primary/10 flex items-center gap-2 shadow-sm">
+                    <div className="relative flex h-1 w-1">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-1 w-1 bg-primary"></span>
+                    </div>
+                    <span className="text-[8px] font-bold uppercase tracking-widest text-primary font-mono">Live</span>
                   </div>
-                  <div>
-                    <div className="text-xs font-bold text-outline uppercase tracking-wider mb-1">{t('home', 'popularAreas')}</div>
-                    <div className="font-bold text-on-surface">{t('home', 'bangkok')}</div>
+                </div>
+
+                {/* Popular Areas Overlay - Minimalist */}
+                <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-xl px-3 py-2 rounded-xl shadow-ambient-heavy z-30 flex items-center gap-3 border border-white/50">
+                  <div className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center shrink-0">
+                    <LayoutGrid className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[7px] font-bold text-outline uppercase tracking-wider mb-0">{t('home', 'popularAreas')}</div>
+                    <div className="font-bold text-on-surface text-xs truncate">{t('home', 'bangkok')}</div>
                   </div>
                 </div>
               </div>
 
-              {/* Stats & Actions */}
-              <div className="grid grid-cols-1 gap-6 mb-8">
-                <div className="bg-surface p-8 rounded-[2rem] border border-outline-variant/10 text-center lg:text-left">
-                  <div className="text-4xl font-bold text-on-surface mb-2 font-mono">{trackCount}+</div>
-                  <div className="text-sm text-on-surface-variant font-medium">{t('home', 'verifiedTracks')}</div>
+              {/* Bento Stats Grid - Ultra Compact */}
+              <div className="grid grid-cols-2 gap-2.5 mb-3">
+                <div className="bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/5">
+                  <div className="text-xl font-bold text-primary mb-0 font-display leading-none">{trackCount}+</div>
+                  <div className="text-[9px] text-on-surface-variant font-medium tracking-tight italic">{t('home', 'verifiedTracks')}</div>
+                </div>
+                <div className="bg-secondary/5 p-3.5 rounded-xl border border-outline-variant/5">
+                  <div className="text-xl font-bold text-secondary mb-0 font-display leading-none">4.8</div>
+                  <div className="text-[9px] text-on-surface-variant font-medium tracking-tight italic">Rating</div>
                 </div>
               </div>
 
-              {/* Action Button */}
-              <Link href="/explore" className="w-full bg-primary text-white h-20 rounded-[2rem] font-bold text-lg flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-lg shadow-primary/10 group/btn">
+              {/* Action Button - Balanced for small scale */}
+              <Link href="/explore" className="w-full bg-primary text-white h-12 rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-secondary transition-all shadow-lg shadow-primary/20 group/btn">
                 <span>{t('home', 'btnExploreAll')}</span>
-                <ArrowRight className="w-6 h-6 transition-transform group-hover/btn:translate-x-1" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
               </Link>
             </div>
-
-            {/* Visual Flare Decoration */}
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+            {/* Visual Flare Decoration (External) */}
+            <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-primary/5 rounded-full blur-3xl -z-10"></div>
           </div>
         </div>
       </section>
