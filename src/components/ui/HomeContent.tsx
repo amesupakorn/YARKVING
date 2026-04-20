@@ -68,33 +68,33 @@ export function HomeContent({ trackCount, topTracks }: HomeContentProps) {
   return (
     <main className="w-full pb-24 bg-surface">
       {/* Hero Section: Editorial Dashboard Design */}
-      <section className="relative min-h-[850px] flex flex-col justify-center px-8 pt-20">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      <section className="relative min-h-[100svh] lg:min-h-[850px] flex flex-col justify-center px-5 sm:px-8 pt-28 md:pt-20">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
           {/* Left Column: Focused Copy & Search */}
-          <div className="space-y-12">
-            <div className="space-y-6">
-              <h1 className="text-6xl lg:text-7xl font-bold font-display leading-[1.1] text-primary">
+          <div className="space-y-8 md:space-y-12">
+            <div className="space-y-4 md:space-y-6">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-display leading-[1.1] text-primary">
                 {t('home', 'heroTitle')}<br />
                 <span className="text-secondary opacity-90">{t('home', 'heroSubtitle')}</span>
               </h1>
 
-              <p className="text-xl text-on-surface-variant max-w-lg leading-relaxed font-medium">
+              <p className="text-lg md:text-xl text-on-surface-variant max-w-lg leading-relaxed font-medium">
                 {t('home', 'heroDesc')}
               </p>
             </div>
 
             {/* Custom Styled Search Bar */}
             <div className="relative max-w-xl group" ref={searchRef}>
-              <div className="absolute inset-y-0 left-8 flex items-center pointer-events-none z-10">
+              <div className="absolute inset-y-0 left-6 md:left-8 flex items-center pointer-events-none z-10">
                 {isLoading ? (
-                  <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                  <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
                 ) : (
-                  <Search className="w-6 h-6 text-outline" strokeWidth={1.5} />
+                  <Search className="w-5 h-5 md:w-6 md:h-6 text-outline" strokeWidth={1.5} />
                 )}
               </div>
               <input
-                className="w-full h-20 pl-20 pr-10 bg-white border-none rounded-[2rem] text-xl shadow-ambient focus:ring-8 focus:ring-primary/5 transition-all placeholder:text-outline-variant outline-none font-sans"
+                className="w-full h-16 md:h-20 pl-14 md:pl-20 pr-6 md:pr-10 bg-white border-none rounded-[2rem] text-lg md:text-xl shadow-ambient focus:ring-8 focus:ring-primary/5 transition-all placeholder:text-outline-variant outline-none font-sans"
                 placeholder={t('home', 'searchPlaceholder')}
                 type="text"
                 value={searchQuery}
@@ -222,13 +222,13 @@ export function HomeContent({ trackCount, topTracks }: HomeContentProps) {
       </section>
 
       {/* Content Section: Grid Layout */}
-      <section className="py-24 px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between md:items-end mb-16 gap-6">
+      <section className="py-16 md:py-24 px-5 sm:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 gap-6">
           <div>
-            <h2 className="text-4xl font-bold font-display mb-4">{t('home', 'popularTracks')}</h2>
-            <p className="text-on-surface-variant text-lg">{t('home', 'popularDesc')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold font-display mb-3 md:mb-4">{t('home', 'popularTracks')}</h2>
+            <p className="text-on-surface-variant text-base md:text-lg">{t('home', 'popularDesc')}</p>
           </div>
-          <Link href="/explore" className="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-xl font-semibold transition-all hover:opacity-90 inline-flex self-start md:self-end text-sm">
+          <Link href="/explore" className="bg-secondary-container text-on-secondary-container px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition-all hover:opacity-90 inline-flex self-stretch justify-center md:self-end text-sm text-center">
             {t('home', 'btnSeeMore')}
           </Link>
         </div>

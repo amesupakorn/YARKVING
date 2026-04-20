@@ -9,18 +9,18 @@ export function AboutContent() {
   return (
     <main className="w-full pb-24">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] overflow-hidden bg-surface-container-low flex flex-col justify-center px-8 pt-40 pb-20">
+      <section className="relative min-h-[50vh] overflow-hidden bg-surface-container-low flex flex-col justify-center px-5 sm:px-8 pt-32 md:pt-40 pb-16 md:pb-20">
         <div className="absolute top-0 left-0 w-full h-full bg-primary/5 blur-3xl rounded-full scale-150 transform -translate-y-1/2"></div>
 
         <div className="max-w-4xl mx-auto w-full relative z-10 text-center space-y-6">
-          <h1 className="text-5xl md:text-6xl font-bold font-display leading-[1.2] text-on-surface">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-[1.2] text-on-surface">
             {t('about', 'heroTitle')}<br />
             <span className="text-primary italic">
               {t('about', 'heroSubtitle')}
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl lg:text-2xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
             {t('about', 'heroDesc')}
           </p>
         </div>
@@ -92,11 +92,11 @@ export function AboutContent() {
 
         {/* Story */}
         <div className="space-y-8">
-          <h2 className="text-4xl font-bold font-display text-on-surface text-center">
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-on-surface text-center">
             {t('about', 'storyTitle')}
           </h2>
 
-          <div className="space-y-6 text-lg text-on-surface-variant leading-relaxed p-10 md:p-14 bg-surface-container-low rounded-[3rem] shadow-inner">
+          <div className="space-y-6 text-base md:text-lg text-on-surface-variant leading-relaxed p-6 sm:p-10 md:p-14 bg-surface-container-low rounded-[2rem] md:rounded-[3rem] shadow-inner">
             <p>{t('about', 'story1')}</p>
             <p>{t('about', 'story2')}</p>
             <p>{t('about', 'story3')}</p>

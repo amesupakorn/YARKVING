@@ -228,7 +228,7 @@ export default function ExplorePage() {
     return (
         <main className="w-full pb-24">
             {/* Hero Section: Real Interactive Map */}
-            <section className="relative w-full h-[60vh] bg-surface-container-high overflow-hidden">
+            <section className="relative w-full h-[40vh] md:h-[60vh] bg-surface-container-high overflow-hidden">
                 {!hasLocation && (
                     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-surface-container-high/80 backdrop-blur-sm animate-pulse">
                         <Navigation className="w-10 h-10 text-primary mb-4 animate-bounce" />
@@ -245,11 +245,11 @@ export default function ExplorePage() {
                 </div>
 
                 {/* Map UI Overlay (HUD) */}
-                <div className="absolute inset-0 pt-32 pb-8 px-8 flex flex-col justify-between pointer-events-none z-10">
+                <div className="absolute inset-0 pt-24 md:pt-32 pb-4 md:pb-8 px-4 md:px-8 flex flex-col justify-between pointer-events-none z-10">
                     <div className="flex justify-end max-w-7xl mx-auto w-full pointer-events-auto">
-                        <button onClick={handleGetLocation} className="bg-surface-container-lowest p-3 rounded-full shadow-lg border border-outline-variant/10 hover:bg-surface-bright hover:shadow-xl transition-all mr-2 mt-4 tooltip relative group inline-block focus:outline-none">
-                            <Navigation className={`w-6 h-6 ${hasLocation ? 'text-primary' : 'text-outline'}`} fill={hasLocation ? "currentColor" : "none"} />
-                            <div className="absolute hidden group-hover:block -bottom-10 right-0 bg-surface-container-lowest text-sm px-3 py-1 rounded shadow text-on-surface whitespace-nowrap">{t('explore', 'nearbyTitle')}</div>
+                        <button onClick={handleGetLocation} className="bg-surface-container-lowest p-2 md:p-3 rounded-full shadow-lg border border-outline-variant/10 hover:bg-surface-bright hover:shadow-xl transition-all mr-2 mt-2 md:mt-4 tooltip relative group inline-block focus:outline-none">
+                            <Navigation className={`w-5 h-5 md:w-6 md:h-6 ${hasLocation ? 'text-primary' : 'text-outline'}`} fill={hasLocation ? "currentColor" : "none"} />
+                            <div className="absolute hidden lg:group-hover:block -bottom-10 right-0 bg-surface-container-lowest text-sm px-3 py-1 rounded shadow text-on-surface whitespace-nowrap">{t('explore', 'nearbyTitle')}</div>
                         </button>
                     </div>
                 </div>
@@ -259,18 +259,18 @@ export default function ExplorePage() {
             </section>
 
             {/* Search & Filter Section */}
-            <section className="px-8 max-w-6xl mx-auto -mt-10 relative z-30 space-y-6">
+            <section className="px-5 sm:px-8 max-w-6xl mx-auto -mt-8 md:-mt-10 relative z-30 space-y-4 md:space-y-6">
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="relative flex-1 group shadow-ambient rounded-[2rem]">
-                        <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                        <div className="absolute inset-y-0 left-5 md:left-6 flex items-center pointer-events-none">
                             {isLoadingTracks && debouncedQuery !== searchQuery ? (
-                                <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                                <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
                             ) : (
-                                <Search className="w-6 h-6 text-outline" strokeWidth={1.5} />
+                                <Search className="w-5 h-5 md:w-6 md:h-6 text-outline" strokeWidth={1.5} />
                             )}
                         </div>
                         <input
-                            className="w-full h-[68px] pl-16 pr-16 bg-surface-container-lowest border border-outline-variant/10 rounded-[2rem] text-lg focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant outline-none font-sans shadow-inside"
+                            className="w-full h-14 md:h-[68px] pl-14 md:pl-16 pr-12 md:pr-16 bg-surface-container-lowest border border-outline-variant/10 rounded-[2rem] text-base md:text-lg focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant outline-none font-sans shadow-inside"
                             placeholder={t('explore', 'searchPlaceholder')}
                             type="text"
                             value={searchQuery}
@@ -288,14 +288,14 @@ export default function ExplorePage() {
                     <button
                         onClick={() => setIsFilterOpen(true)}
                         className={cn(
-                            "bg-surface-container-lowest border border-outline-variant/10 px-8 py-4 rounded-[2rem] font-bold flex items-center justify-center gap-3 hover:bg-surface-variant transition-colors whitespace-nowrap shadow-sm text-on-surface",
+                            "bg-surface-container-lowest border border-outline-variant/10 px-6 md:px-8 py-3 md:py-4 rounded-[2rem] font-bold flex items-center justify-center gap-2 md:gap-3 hover:bg-surface-variant transition-colors whitespace-nowrap shadow-sm text-on-surface text-sm md:text-base",
                             (filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers || filters.district) && "border-primary/50 bg-primary/5 text-primary"
                         )}
                     >
-                        <Filter className="w-5 h-5" />
+                        <Filter className="w-4 h-4 md:w-5 md:h-5" />
                         <span className="font-display">{t('explore', 'filters')}</span>
                         {(filters.minRating > 0 || filters.restrooms || filters.water || filters.parking || filters.lockers || filters.district) && (
-                            <span className="w-2 h-2 bg-primary rounded-full" />
+                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-primary rounded-full" />
                         )}
                     </button>
                 </div>
@@ -351,7 +351,7 @@ export default function ExplorePage() {
             </section>
 
             {/* Content Section: Track List */}
-            <section className="py-16 px-8 max-w-6xl mx-auto">
+            <section className="py-12 md:py-16 px-5 sm:px-8 max-w-6xl mx-auto">
                 <div className="mb-12">
                     <h2 className="text-4xl font-bold font-display mb-3 text-on-surface flex items-center gap-3">
                         {t('explore', 'nearbyTitle')}
