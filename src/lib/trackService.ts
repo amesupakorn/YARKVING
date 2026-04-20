@@ -15,7 +15,7 @@ export interface Track {
   name: string;
   imageUrl: string;
   rating: number;
-  distance: number | null;
+  distance: string | number | null;
   surface: string | null;
   elevation: string | null;
   difficulty: string | null;
@@ -31,11 +31,11 @@ export interface Track {
   imageCredit: string | null;
   district: string | null;
   address: string | null;
-  category: string | null;
+  category?: string | null;
   reviews: Review[];
 }
 
-const tracks = tracksData as Track[];
+const tracks = tracksData as unknown as Track[];
 
 export const trackService = {
   getAll: () => tracks,
