@@ -1,4 +1,5 @@
 import React from "react";
+import { Metadata } from "next";
 import { trackService } from "@/lib/trackService";
 import { notFound } from "next/navigation";
 import { TrackDetailsContent } from "@/components/ui/TrackDetailsContent";
@@ -6,6 +7,38 @@ import { TrackDetailsContent } from "@/components/ui/TrackDetailsContent";
 type Props = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const track = trackService.getById(id);
+
+  if (!track) {
+    return {
+      title: "Track Not Found",
+    };
+  }
+
+  return {
+    title: `${track.name} - เส้นทางวิ่งใน ${track.district || "กรุงเทพฯ"}`,
+    description: track.description || `ข้อมูลเส้นทางวิ่ง ${track.name}: ระยะทาง ${track.distance}, สภาพพื้นผิว ${track.surface}, และความยากระดับ ${track.difficulty}`,
+    openGraph: {
+      title: track.name,
+      description: track.description || `ข้อมูลเส้นทางวิ่ง ${track.name}`,
+      images: [
+        {
+          url: track.imageUrl,
+          alt: track.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: track.name,
+      description: track.description || `ข้อมูลเส้นทางวิ่ง ${track.name}`,
+      images: [track.imageUrl],
+    },
+  };
+}
 
 export default async function TrackDetailsPage({ params }: Props) {
   const { id } = await params;
