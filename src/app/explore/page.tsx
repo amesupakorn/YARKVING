@@ -5,6 +5,7 @@ import { Search, MapPin, Star, Filter, Navigation, ArrowRight, X, Droplets, Car,
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 import MapWrapper from "@/components/ui/MapWrapper";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Track {
     id: string;
@@ -17,6 +18,7 @@ interface Track {
 }
 
 export default function ExplorePage() {
+    const { t, lang } = useLanguage();
     const [location, setLocation] = useState({ lat: 13.736717, lng: 100.523186 }); // Default: Lumpini Park
     const [hasLocation, setHasLocation] = useState(false);
     const [nearbyTracks, setNearbyTracks] = useState<Track[]>([]);

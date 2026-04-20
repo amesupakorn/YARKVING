@@ -6,6 +6,7 @@ import L from 'leaflet';
 import Link from 'next/link';
 import { Star } from 'lucide-react';
 import ParkCoverImage from './ParkCoverImage';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface Track {
     id: string;
@@ -55,6 +56,7 @@ const getTrackIcon = (track: Track) => L.divIcon({
 });
 
 export default function ExploreMap({ tracks, userLocation }: ExploreMapProps) {
+    const { t } = useLanguage();
     const position: [number, number] = [userLocation.lat, userLocation.lng];
 
     return (
@@ -67,7 +69,7 @@ export default function ExploreMap({ tracks, userLocation }: ExploreMapProps) {
             {/* User Location */}
             <Marker position={position} icon={userIcon}>
                 <Popup className="user-popup">
-                   <div className="font-display font-medium text-sm text-center">คุณอยู่ที่นี่</div>
+                   <div className="font-display font-medium text-sm text-center">{t('explore', 'youAreHere')}</div>
                 </Popup>
             </Marker>
 
@@ -100,7 +102,7 @@ export default function ExploreMap({ tracks, userLocation }: ExploreMapProps) {
                                         <span className="font-mono font-semibold">{track.rating.toFixed(1)}</span>
                                     </div>
                                     <div className="text-primary font-medium flex items-center text-xs">
-                                        ดูรายละเอียด <span className="ml-1 group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                                        {t('explore', 'seeDetails')} <span className="ml-1 group-hover:translate-x-0.5 transition-transform">&rarr;</span>
                                     </div>
                                 </div>
                             </div>

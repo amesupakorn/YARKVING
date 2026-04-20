@@ -59,6 +59,8 @@ export const translations = {
       facilityLockers: 'ล็อกเกอร์',
       btnClearAll: 'ล้างทั้งหมด',
       btnApply: 'แสดง {count} สถานที่',
+      youAreHere: 'คุณอยู่ที่นี่',
+      seeDetails: 'ดูรายละเอียด',
     },
     details: {
       distance: 'ระยะทาง',
@@ -164,6 +166,8 @@ export const translations = {
       facilityLockers: 'Lockers',
       btnClearAll: 'Clear All',
       btnApply: 'Show {count} Places',
+      youAreHere: 'You are here',
+      seeDetails: 'See Details',
     },
     details: {
       distance: 'Distance',
