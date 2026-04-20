@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏃‍♂️ YARKVING - ค้นหาเส้นทางวิ่งและสวนสาธารณะที่ดีที่สุดในกรุงเทพฯ
 
-## Getting Started
+[![Live Site](https://img.shields.io/badge/Live-yarkving.online-2E7D32?style=for-the-badge&logo=vercel)](https://yarkving.online)
+[![Next.js](https://img.shields.io/badge/Next.js-15+-000000?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
-First, run the development server:
+**YARKVING (อยากวิ่ง)** เป็นแพลตฟอร์มสมัยใหม่ที่ออกแบบมาเพื่อนักวิ่งและผู้ที่รักสุขภาพในกรุงเทพฯ โดยรวบรวมข้อมูลสวนสาธารณะและเส้นทางวิ่งที่ครบถ้วน พร้อมระบบค้นหาอัจฉริยะแบบ Interactive เพื่อให้คุณพบ "เส้นทางที่ใช่" ได้ง่ายขึ้นในบรรยากาศการออกแบบที่เน้นความสงบและเรียบหรู (The Serene Path Design System)
+
+---
+
+## 🌎 Live Demo
+
+คุณสามารถเข้าชมผลลัพธ์ของโปรเจคจริงได้ที่:
+👉 **[https://yarkving.online](https://yarkving.online)**
+
+---
+
+## ✨ Key Features (คุณสมบัติเด่น)
+
+- **📍 Interactive Network Map**: แผนที่โต้ตอบได้จริงที่ช่วยให้เห็นภาพรวมของเส้นทางวิ่งรอบตัวคุณแบบ Real-time
+- **🔍 Smart Search & Discovery**: ค้นหาสวนสาธารณะตามเขตหรือชื่อสถานที่ พร้อมระบบกรองข้อมูลที่รวดเร็ว
+- **📖 Knowledge Hub**: บทความแนะนำสำหรับนักวิ่งมือใหม่และมือโปร ตั้งแต่เทคนิคการเลือกรองเท้าไปจนถึงโภชนาการ
+- **📱 Responsive & Editorial Design**: หน้าตาเว็บที่สวยงามเหมือนนิตยสาร รองรับการใช้งานได้สมบูรณ์แบบทั้งบนคอมพิวเตอร์และมือถือ
+- **🌐 Multi-language Support**: รองรับทั้งภาษาไทยและภาษาอังกฤษ เพื่อนักวิ่งทุกคนในเมืองใหญ่
+
+## 🛠 Tech Stack (เทคโนโลยีที่ใช้)
+
+- **Framework**: [Next.js 16 (Turbopack)](https://nextjs.org/)
+- **UI/Logic**: React 19 & JavaScript
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (Vanilla CSS for high-fidelity polishing)
+- **Database**: [Prisma ORM](https://www.prisma.io/)
+- **Maps**: [Leaflet](https://leafletjs.com/) with React-Leaflet
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+---
+
+## 🚀 Getting Started (การรันโปรเจคเบื้องต้น)
+
+สแกนโค้ดและรันในเครื่องของคุณได้ง่ายๆ:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# 1. ติดตั้ง Dependencies
+pnpm install
+
+# 2. เตรียมฐานข้อมูล (Prisma)
+pnpm prisma generate
+
+# 3. รันโปรเจคในโหมดพัฒนา
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด [http://localhost:3000](http://localhost:3000) เพื่อดูผลลัพธ์
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## 📝 License
 
-To learn more about Next.js, take a look at the following resources:
+Distributed under the MIT License. See `LICENSE` for more information.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Created with ❤️ for the Bangkok Running Community.*
