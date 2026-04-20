@@ -40,5 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# parks images
-public/image/parks/
+scratch/
