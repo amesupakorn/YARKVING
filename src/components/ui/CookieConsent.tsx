@@ -32,16 +32,16 @@ export function CookieConsent() {
   if (!isVisible) return null;
 
   return (
-    <div 
+    <div
       className={cn(
-        "fixed bottom-4 left-4 right-4 sm:bottom-6 sm:right-6 sm:left-auto z-[100] sm:max-w-[400px]",
+        "fixed bottom-0 left-0 right-0 sm:bottom-6 sm:right-6 sm:left-auto z-[100] sm:max-w-[400px]",
         "animate-in fade-in slide-in-from-bottom-10 duration-700 ease-out"
       )}
     >
       <div
         className={cn(
-          "bg-surface-container-lowest/80 backdrop-blur-xl border border-outline-variant/20 rounded-2xl p-8 shadow-ambient",
-          "flex flex-col gap-6"
+          "bg-surface-container-lowest/90 backdrop-blur-xl border-t sm:border border-outline-variant/20 sm:rounded-2xl p-6 sm:p-8 shadow-ambient",
+          "flex flex-col gap-5 sm:gap-6"
         )}
       >
         <div className="flex justify-between items-start gap-4">
@@ -69,7 +69,7 @@ export function CookieConsent() {
           <button
             onClick={handleAccept}
             className={cn(
-              "flex-1 bg-primary text-on-primary h-14 rounded-xl font-bold text-sm",
+              "flex-1 bg-primary text-on-primary h-14 py-2.5 rounded-xl font-bold text-sm",
               "hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm"
             )}
           >
@@ -78,7 +78,7 @@ export function CookieConsent() {
           <button
             onClick={handleDecline}
             className={cn(
-              "flex-1 bg-secondary-container text-on-secondary-container h-14 rounded-xl font-semibold text-sm",
+              "flex-1 bg-secondary-container text-on-secondary-container h-14 py-2.5 rounded-xl font-semibold text-sm",
               "hover:bg-secondary-container/80 transition-all active:scale-[0.98]"
             )}
           >
