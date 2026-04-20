@@ -43,6 +43,7 @@ export function Navbar() {
       {/* Desktop Menu */}
       <div className="hidden md:flex flex-1 items-center justify-center gap-8 text-sm font-medium">
         <Link href="/explore" className="hover:text-primary transition-colors">{t('navbar', 'explore')}</Link>
+        <Link href="/knowledge" className="hover:text-primary transition-colors">{t('knowledge', 'title')}</Link>
 
         {/* Desktop Language Switcher */}
         <button
@@ -74,6 +75,13 @@ export function Navbar() {
             onClick={() => setIsOpen(false)}
           >
             {t('navbar', 'searchNew')}
+          </Link>
+          <Link
+            href="/knowledge"
+            className="hover:text-primary text-base font-semibold transition-colors py-2 px-2 rounded-lg hover:bg-surface-container-low"
+            onClick={() => setIsOpen(false)}
+          >
+            {t('knowledge', 'title')}
           </Link>
           <Link
             href="/about"

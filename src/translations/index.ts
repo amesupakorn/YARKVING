@@ -1,4 +1,4 @@
-export type TranslationCategory = 'common' | 'navbar' | 'home' | 'explore' | 'details' | 'about' | 'footer' | 'cookie' | 'trackDetails';
+export type TranslationCategory = 'common' | 'navbar' | 'home' | 'explore' | 'details' | 'about' | 'footer' | 'cookie' | 'trackDetails' | 'knowledge';
 
 export const translations = {
   th: {
@@ -124,6 +124,21 @@ export const translations = {
       userReviews: 'ความพึงพอใจจากนักวิ่ง',
       outOfFive: 'จาก 5 คะแนน',
       reviewsPoweredBy: 'ข้อมูลรีวิวโดย Google Maps',
+    },
+    knowledge: {
+      title: 'สาระน่ารู้สำหรับการวิ่ง',
+      subtitle: 'แหล่งรวมความรู้ เทคนิค และแรงบันดาลใจเพื่อนักวิ่งทุกคน',
+      searchPlaceholder: 'ค้นหาบทความ...',
+      readMore: 'อ่านต่อ',
+      readTime: '{time} นาที',
+      categories: {
+        all: 'ทั้งหมด',
+        Tips: 'เทคนิคการวิ่ง',
+        Nutrition: 'อาหารการกิน',
+        Gear: 'รีวิวอุปกรณ์',
+        Community: 'คุยเฟื่องเรื่องวิ่ง',
+      },
+      noResults: 'ไม่พบบทความที่คุณกำลังค้นหา',
     }
   },
   en: {
@@ -249,6 +264,21 @@ export const translations = {
       userReviews: 'Runner Reviews',
       outOfFive: 'out of 5',
       reviewsPoweredBy: 'Reviews powered by Google Maps',
+    },
+    knowledge: {
+      title: 'Running Knowledge Hub',
+      subtitle: 'A curated collection of knowledge, techniques, and inspiration for every runner.',
+      searchPlaceholder: 'Search articles...',
+      readMore: 'Read More',
+      readTime: '{time} min',
+      categories: {
+        all: 'All',
+        Tips: 'Running Tips',
+        Nutrition: 'Nutrition',
+        Gear: 'Gear',
+        Community: 'Community Stories',
+      },
+      noResults: 'No articles found matching your search',
     }
   }
 };
